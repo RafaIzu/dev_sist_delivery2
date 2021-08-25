@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Cadastro Cliente{% endblock %}
+{% block page_content %}
+<h1 style="text-align: center;">Cadastrar novo cliente</h1>
+<form action="/add_consumer" class="container" method="post">
+    <div class="row">
+        <div class="col-md-6">
+            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="email" id="email" placeholder="E-mail" class="form-control">
+        </div>
+        <div class="col-md-6">
+            <input type="text" name="password" id="password" placeholder="Senha" class="form-control">
+        </div>
+    </div>
+    <br>
+    <div class="row col-xs-12">
+        <button type="submit" class="btn btn-block btn-success">Enviar</button>
+    </div>
+</form>
+{% endblock %}

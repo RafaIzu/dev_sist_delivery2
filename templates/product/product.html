@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Produtos{% endblock %}
+{% block page_content %}
+<h1 style="text-align: center;">Produtos</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="/add_product">Adicionar produto</a>
+        </div>
+        <div class="col-md-6">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Descrição</th>
+                        <th>Número de jogadores</th>
+                        <th>Faixa etária</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in products %}
+                    <tr>
+                        <td>{{p.name}}</td>
+                        <td>{{p.price}}</td>
+                        <td>{{p.description}}</td>
+                        <td>{{p.players}}</td>
+                        <td>{{p.age}}</td>
+                        <td>
+                            <a href="/edit_product/{{p.id}}">Editar</a>
+                            <a href="/delete_product/{{p.id}}">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

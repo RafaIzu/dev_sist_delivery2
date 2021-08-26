@@ -1,0 +1,28 @@
+
+.menu{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 300px;
+
+}
+
+.menu>ul>li{
+    margin-top: 20px;
+}
+
+.menu>ul>li>a{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: large;
+    color: black;
+    
+}
+
+.menu>ul>li>a:hover{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: normal;
+    font-size: large;
+    text-decoration: none;
+    color: black;
+}

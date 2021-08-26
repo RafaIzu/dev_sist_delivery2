@@ -55,9 +55,11 @@ def product():
 @form.route("/add_product", methods=["GET", "POST"])
 def add_product():
     if request.method == 'POST':
-        product = Product(name=request.form['name'], price=request.form['price'],
-                            description=request.form['description'],
-                            players=request.form['players'], age=request.form['age'])
+        product = Product(name=request.form['name'],
+                          price=request.form['price'].replace(",", "."),
+                          description=request.form['description'],
+                          players=request.form['players'],
+                          age=request.form['age'])
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('form.product'))

@@ -8,7 +8,7 @@ from werkzeug.utils import redirect
 
 
 db = SQLAlchemy()
-
+bootstrap = Bootstrap()
 def create_app():
     app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///delivery.sqlite3'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
-    bootstrap = Bootstrap(app)
+    bootstrap.init_app(app)
 
     from .form import form as form_blueprint
     app.register_blueprint(form_blueprint)

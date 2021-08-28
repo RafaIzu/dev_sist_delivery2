@@ -7,6 +7,7 @@ class Consumer(db.Model):
     name = db.Column(db.String(150))
     email = db.Column(db.String(150))
     password = db.Column(db.String(150))
+    destiny_id = db.Column(db.Integer, db.ForeignKey('destiny.id'))
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -17,19 +18,10 @@ class Product(db.Model):
     players = db.Column(db.Integer)
     age = db.Column(db.Integer)
 
-# class Address(db.Model):
-#     __tablename__ = 'destiny'
-#     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-#     address = db.Column(db.String(250))
-#     number =  db.Column(db.String(100))
-#     complement = db.Column(db.String(150))
-#     neighborhood = db.Column(db.String(250))
-#     zipcode = db.Column(db.String(150))
-#     consumer = db.relationship('Consumer', backref='destiny')
-
-
-
-
-
-
-
+class Destiny(db.Model):
+    __tablename__ = 'destiny'
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    address = db.Column(db.String(200))
+    number = db.Column(db.String(100))
+    zipcode = db.Column(db.String(100))
+    consumer = db.relationship('Consumer', backref="destiny")

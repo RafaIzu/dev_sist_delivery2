@@ -2,7 +2,7 @@
 {% block title %}Edição de Cliente{% endblock %}
 {% block page_content %}
 <h1 style="text-align: center;">Editar {{ consumer.name }}</h1>
-<form action="/edit_consumer/{{ consumer.id }}" class="container" method="post">
+<form action="/edit_consumer/{{ consumer.id }}" class="consumer_edit" method="post">
     <div class="row">
         <div class="col-md-6">
             <input type="text" name="name", id="name" placeholder="Nome" class="form-control" value="{{ consumer.name }}">
@@ -10,6 +10,15 @@
         <div class="col-md-6">
             <input type="text" name="email" id="email" placeholder="E-mail" class="form-control" value="{{ consumer.email }}" >
         </div>
+    </div>
+    <div class="col-md-6">
+        <input type="text" name="address" id="address" placeholder="Endereço" class="form-control" value="{{ consumer.destiny.address }}">
+    </div>
+    <div class="col-md-6">
+        <input type="text" name="number" id="number" placeholder="Número" class="form-control" value="{{ consumer.destiny.number }}">
+    </div>
+    <div class="col-md-6">
+        <input type="text" name="zipcode" id="zipcode" placeholder="CEP" class="form-control" value="{{ consumer.destiny.zipcode }}">
     </div>
     <br>
     <div class="row col-xs-12">

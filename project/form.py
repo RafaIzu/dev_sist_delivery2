@@ -1,25 +1,30 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
-from .models import Consumer, Product
+from .models import Consumer, Product, Destiny
 
 form = Blueprint('form', __name__)
 
 
 @form.route('/consumer')
 def consumer():
-    # consumer = Consumer.query.all()
     consumers = Consumer.query.with_entities(Consumer.id, Consumer.name,
                                              Consumer.email)
+    destinies = Destiny.query.with_entities(Destiny.address, Destiny.number,
+                                            Destiny.zipcode)
     print(consumer) 
-    return render_template('consumer/consumer.html', consumers=consumers)
+    return render_template('consumer/consumer.html', consumers=zip(consumers, destinies))
 
 
 @form.route("/add_consumer", methods=["GET", "POST"])
 def add_consumer():
     if request.method == 'POST':
+        destiny = Destiny(address=request.form['address'],
+                          number=request.form['number'],
+                          zipcode=request.form['zipcode'])
         consumer = Consumer(name=request.form['name'], email=request.form['email'],
-                            password=generate_password_hash(request.form['password']))
+                            password=generate_password_hash(request.form['password']),
+                            destiny=destiny)
         db.session.add(consumer)
         db.session.commit()
         return redirect(url_for('form.consumer'))
@@ -32,6 +37,9 @@ def edit_consumer(id):
     if request.method == 'POST':
         consumer.name = request.form['name']
         consumer.email = request.form['email']
+        consumer.destiny.address = request.form['address']
+        consumer.destiny.number = request.form['number']
+        consumer.destiny.zipcode = request.form['zipcode']
         db.session.commit()
         print('comitou')
         return redirect(url_for('form.consumer'))

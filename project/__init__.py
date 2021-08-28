@@ -1,10 +1,7 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
-from werkzeug.utils import redirect
 
 
 db = SQLAlchemy()

@@ -5,22 +5,29 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <button class="btn btn-success"><a href="/add_consumer">Adicionar Cliente</a></button>
+            <a href="/add_consumer">Adicionar Cliente</a>
         </div>
-        <div class="col-md-6">
-            <table class="table">
+        <div class="mh-100" id="consumer_table">
+            <table class="table table-striped w-auto">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nome</th>
                         <th scope="col">E-mail</th>
+                        <th scope="col">Endereço</th>
+                        <th scope="col">Número</th>
+                        <th scope="col">CEP</th>
                         <th scope="col">Ações</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in consumers %}
+                    {% for c, d in consumers %}
                     <tr>
                         <td scope="row">{{c.name}}</td>
                         <td scope="row">{{c.email}}</td>
+                        <td scope="row">{{d.address}}</td>
+                        <td scope="row">{{d.number}}</td>
+                        <td scope="row">{{d.zipcode}}</td>
                         <td>
                             <a href="/edit_consumer/{{c.id}}">Editar</a>
                             <a href="/delete_consumer/{{c.id}}">Excluir</a>
@@ -33,7 +40,7 @@
     </div>
 </div>
 <div class="return">
-    <button type="button" class="btn btn-dark"><a href="/index">Voltar</a></button>
+    <a href="/index">Voltar</a>
 </div>
 {% endblock %}
 

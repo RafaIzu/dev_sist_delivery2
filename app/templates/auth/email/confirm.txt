@@ -1,0 +1,10 @@
+Prezado {{ user.username}}
+Bem vindos ao Jogos Acme
+
+Para confirmar seu acesso: <a href="{{ url_for('auth.confirm', token=token, _external=True)}}">Clique aqui.
+Alternativamente você pode acessar via esse link:
+{{url_for('auth.confirm', token=token, _external=True)}}
+Desde já agradeçemos sua atenção,
+Time The cat in the box
+
+Observação: Esse e-mail é automático, não responda a ele.

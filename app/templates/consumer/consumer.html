@@ -4,9 +4,6 @@
 <h1 style="text-align: center;">Clientes</h1>
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
-            <a href="/add_consumer">Adicionar Cliente</a>
-        </div>
         <div class="mh-100" id="consumer_table">
             <table class="table table-striped w-auto">
                 <thead class="thead-dark">
@@ -23,7 +20,7 @@
                 <tbody>
                     {% for c, d in consumers %}
                     <tr>
-                        <td scope="row">{{c.name}}</td>
+                        <td scope="row">{{c.username}}</td>
                         <td scope="row">{{c.email}}</td>
                         <td scope="row">{{d.address}}</td>
                         <td scope="row">{{d.number}}</td>
@@ -43,5 +40,3 @@
     <a href="/index">Voltar</a>
 </div>
 {% endblock %}
-
-

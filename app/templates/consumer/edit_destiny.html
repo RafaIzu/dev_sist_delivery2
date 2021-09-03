@@ -5,7 +5,7 @@
 <form action="/edit_consumer/{{ consumer.id }}" class="consumer_edit" method="post">
     <div class="row">
         <div class="col-md-6">
-            <input type="text" name="name", id="name" placeholder="Nome" class="form-control" value="{{ consumer.name }}">
+            <input type="text" name="name", id="name" placeholder="Nome" class="form-control" value="{{ consumer.username }}">
         </div>
         <div class="col-md-6">
             <input type="text" name="email" id="email" placeholder="E-mail" class="form-control" value="{{ consumer.email }}" >

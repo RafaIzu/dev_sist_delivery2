@@ -1,11 +1,18 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Cadastro Cliente{% endblock %}
 {% block page_content %}
-<h1 style="text-align: center;">Cadastrar novo cliente</h1>
-<form action="/add_consumer" class="container" method="post">
+<div class="page-header">
+    <h1 style="text-align: center;">Cadastrar novo cliente</h1>
+</div>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+</div>
+<!--
+<form action="/auth/register" class="container" method="post">
     <div class="row">
         <div class="col-md-6">
-            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">
+            <input type="text" name="username", id="username" placeholder="Nome" class="form-control">
         </div>
         <div class="col-md-6">
             <input type="email" name="email" id="email" placeholder="E-mail" class="form-control">
@@ -29,7 +36,8 @@
     </div>
 </form>
 <div class="return">
-    <a href="/consumer">Voltar</a>
+    <a href="/main">Voltar</a>
 </div>
+-->
 {% endblock %}
 

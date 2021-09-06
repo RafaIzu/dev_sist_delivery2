@@ -50,36 +50,15 @@ def logout():
     return redirect(url_for('main.index'))
 
 
-# @auth.route('/register', methods=['GET', 'POST'])
-# def register():
-#     if request.method == 'POST':
-#         print(">>> chcocococo !")
-#         destiny = Destiny(address=request.form['address'],
-#                           number=request.form['number'],
-#                           zipcode=request.form['zipcode'])
-#         consumer = Consumer(email=request.form['email'],
-#                             username=request.form['username'],
-#                             password=request.form['password'],
-#                             destiny=destiny)
-#         db.session.add(consumer)
-#         db.session.commit()
-#         token = consumer.generate_confirmation_token()
-#         send_email(consumer.email, 'Confirm Your Account',
-#                    'auth/email/confirm', user=consumer, token=token)
-#         flash('A confirmation email has been sent to you by email.')
-#         return redirect(url_for('auth.login'))
-#     return render_template('auth/register.html')
-
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        destiny = Destiny(address=form.address.data,
-                          number=form.number.data,
-                          zipcode=form.zipcode.data)
-        consumer = Consumer(email=form.email.data.lower(),
-                            username=form.username.data,
-                            password=form.password.data,
+    if request.method == 'POST':
+        destiny = Destiny(address=request.form['address'],
+                          number=request.form['number'],
+                          zipcode=request.form['zipcode'])
+        consumer = Consumer(email=request.form['email'],
+                            username=request.form['username'],
+                            password=request.form['password'],
                             destiny=destiny)
         db.session.add(consumer)
         db.session.commit()
@@ -87,8 +66,28 @@ def register():
         send_email(consumer.email, 'Confirm Your Account',
                    'auth/email/confirm', user=consumer, token=token)
         flash('A confirmation email has been sent to you by email.')
-        return redirect(url_for('main.index'))
-    return render_template('auth/register.html', form=form)
+        return redirect(url_for('auth.login'))
+    return render_template('auth/register.html')
+
+# @auth.route('/register', methods=['GET', 'POST'])
+# def register():
+#     form = RegistrationForm()
+#     if form.validate_on_submit():
+#         destiny = Destiny(address=form.address.data,
+#                           number=form.number.data,
+#                           zipcode=form.zipcode.data)
+#         consumer = Consumer(email=form.email.data.lower(),
+#                             username=form.username.data,
+#                             password=form.password.data,
+#                             destiny=destiny)
+#         db.session.add(consumer)
+#         db.session.commit()
+#         token = consumer.generate_confirmation_token()
+#         send_email(consumer.email, 'Confirm Your Account',
+#                    'auth/email/confirm', user=consumer, token=token)
+#         flash('A confirmation email has been sent to you by email.')
+#         return redirect(url_for('main.index'))
+#     return render_template('auth/register.html', form=form)
 
 
 @auth.route('/confirm/<token>')

@@ -16,17 +16,19 @@
                         <th>Descrição</th>
                         <th>Número de jogadores</th>
                         <th>Faixa etária</th>
+                        <th>Tema</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p in products %}
+                    {% for p, t in products %}
                     <tr>
                         <td>{{p.name}}</td>
                         <td>R$ {{p.price | replace(".", ",")}}</td>
                         <td>{{p.description}}</td>
                         <td>{{p.players}}</td>
                         <td>{{p.age}}</td>
+                        <td>{{t.name}}</td>
                         <td>
                             <a href="/edit_product/{{p.id}}">Editar</a>
                             <a href="/delete_product/{{p.id}}">Excluir</a>

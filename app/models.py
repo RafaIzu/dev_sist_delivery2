@@ -14,6 +14,14 @@ class Product(db.Model):
     description = db.Column(db.String(500))
     players = db.Column(db.Integer)
     age = db.Column(db.Integer)
+    theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
+
+
+class Theme(db.Model):
+    __tablename__ = 'theme'
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(150))
+    product = db.relationship('Product', backref="theme")
 
 
 class Destiny(db.Model):

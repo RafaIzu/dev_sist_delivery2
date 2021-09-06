@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from app import db
-from app.models import Consumer, Product, Destiny
+from app.models import Consumer, Product, Destiny, Theme
 from . import tables
 
 
@@ -10,7 +10,6 @@ def consumer():
                                              Consumer.email)
     destinies = Destiny.query.with_entities(Destiny.address, Destiny.number,
                                             Destiny.zipcode)
-    print(consumer) 
     return render_template('consumer/consumer.html', consumers=zip(consumers, destinies))
 
 
@@ -37,37 +36,44 @@ def delete_consumer(id):
 @tables.route('/product')
 def product():
     products = Product.query.all()
+    themes = Theme().query.all()
     print(product) 
-    return render_template('product/product.html', products=products)
+    return render_template('product/product.html', products=zip(products, themes))
 
 
 @tables.route("/add_product", methods=["GET", "POST"])
 def add_product():
+    theme = Theme()
+    themes = theme.query.all()
     if request.method == 'POST':
+        theme_got = request.form['theme']
         product = Product(name=request.form['name'],
                           price=request.form['price'].replace(",", "."),
                           description=request.form['description'],
                           players=request.form['players'],
-                          age=request.form['age'])
+                          age=request.form['age'],
+                          theme=theme.query.filter_by(name=theme_got).first())
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('tables.product'))
-    return render_template('product/add_product.html')
+    return render_template('product/add_product.html', themes=themes)
 
 
 @tables.route('/edit_product/<int:id>', methods=['GET', 'POST'])
 def edit_product(id):
     product = Product.query.get(id)
+    theme = Theme()
+    themes = theme.query.all()
     if request.method == 'POST':
         product.name = request.form['name']
         product.price = request.form['price']
         product.description = request.form['description']
         product.players = request.form['players']
         product.age = request.form['age']
+        product.theme.name = request.form['theme']
         db.session.commit()
-        print('comitou')
         return redirect(url_for('tables.product'))
-    return render_template('product/edit_product.html', product=product)
+    return render_template('product/edit_product.html', product=product, themes=themes)
 
 
 @tables.route('/delete_product/<int:id>')

@@ -10,10 +10,11 @@ class Config:
     MAIL_PORT = int(os.environ.get('MAIL_PORT', '587'))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in\
         ['true', 'on', '1']
-    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    MAIL_USERNAME = 'appleizukawa'
-    MAIL_PASSWORD = 'Izuk@w@@pple238' 
+
+    # MAIL_USERNAME = 'appleizukawa'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
     DELIVERY_MAIL_SUBJECT_PREFIX = '[Delivery]'
     DELIVERY_MAIL_SENDER = 'Delivery Admin <appleizukawa@gmail.com>'
     DELIVERY_ADMIN = os.environ.get('DELIVERY_ADMIN')

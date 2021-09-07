@@ -1,7 +1,7 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm
+from .forms import ChangeEmailForm, LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetForm, PasswordResetRequestForm
 from ..models import Consumer, Destiny
 from .. import db
 from ..email import send_email
@@ -64,7 +64,7 @@ def register():
         db.session.commit()
         token = consumer.generate_confirmation_token()
         send_email(consumer.email, 'Confirm Your Account',
-                   'auth/email/confirm', user=consumer, token=token)
+                   'auth/email/confirm', consumer=consumer, token=token)
         flash('A confirmation email has been sent to you by email.')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html')
@@ -119,7 +119,6 @@ def before_request():
 @auth.route('/unconfirmed')
 def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
-        print('>>>cherry<<<')
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
 
@@ -128,10 +127,10 @@ def unconfirmed():
 @login_required
 def resend_confirmation():
     token = current_user.generate_confirmation_token()
-    send_email(current_user.email, 'Confirm You Account',
+    send_email(current_user.email, 'Confirmando a sua conta',
                'auth/email/confirm', user=current_user,
                token=token)
-    flash('A new confirmation email has been sent to you by email.')
+    flash('Um novo e-mail de confirmação foi enviada para a sua caixa de e-mails.')
     return redirect(url_for('main.index'))
 
 @auth.route('/change_password', methods=['GET', 'POST'])
@@ -143,8 +142,66 @@ def change_password():
             current_user.password = form.password.data
             db.session.add(current_user)
             db.session.commit()
-            flash('Your password has been updated')
+            flash('Sua senha foi trocada.')
             return redirect(url_for('main.index'))
         else:
             flash('Invalid Password')
     return render_template("auth/change_password.html", form=form)
+
+@auth.route('/reset', methods=['GET', 'POST'])
+def password_reset_request():
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form = PasswordResetRequestForm()
+    if form.validate_on_submit():
+        consumer = Consumer.query.filter_by(email=form.email.data.lower()).first()
+        if consumer:
+            token = consumer.generate_reset_token()
+            send_email(consumer.email, 'Renovando a sua senha.',
+                       'auth/email/reset_password', consumer=consumer, token=token)
+            flash('Um email com instruções para renovar a sua senha foi'
+                  'enviado para você')
+            return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)
+
+@auth.route('/reset/<token>', methods=['GET', 'POST'])
+def password_reset(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form =  PasswordResetForm()
+    if form.validate_on_submit():
+        if Consumer.reset_password(token, form.password.data):
+            db.session.commit()
+            flash('Sua senha foi renovada!')
+            return redirect(url_for('main.login'))
+        else:
+            return redirect(url_for('main.index'))
+    return render_template('auth/reset_password.html', form=form)
+
+@auth.route('/change_email', methods=['GET', 'POST'])
+@login_required
+def change_email_request():
+    form = ChangeEmailForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.password.data):
+            new_email = form.email.data.lower()
+            token = current_user.generate_email_change_token(new_email)
+            send_email(new_email, 'Confirme o seu endereço de email',
+                       'auth/email/change_email', consumer=current_user,
+                       token=token)
+            flash('Um email com as instruções para confirmar seu novo email'
+                  'Foi enviado para você.')
+            return redirect(url_for('main.index'))
+        else:
+            flash('Email ou senha inválida.')
+    return render_template('auth/change_email.html', form=form)
+
+@auth.route('/change_email/<token>', methods=['GET', 'POST'])
+@login_required
+def change_email(token):
+    if current_user.change_email(token):
+        db.session.commit()
+        flash('Seu endereço de email foi atualizado!')
+    else:
+        flash('Requerimento invalido.')
+    return redirect(url_for('main.index'))

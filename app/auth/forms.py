@@ -38,9 +38,33 @@ class RegistrationForm(FlaskForm):
 
 
 class ChangePasswordForm(FlaskForm):
-    old_password = PasswordField('Old password', validators=[DataRequired()])
-    password = PasswordField('New Password', validators=[
-        DataRequired(), EqualTo('password2', message='Passwords must match.')])
-    password2 = PasswordField('Confirm new password',
+    old_password = PasswordField('Velha senha', validators=[DataRequired()])
+    password = PasswordField('Nova senha', validators=[
+        DataRequired(), EqualTo('password2', message='Senhas devem coincidir.')])
+    password2 = PasswordField('Confirme a nova senha',
                               validators=[DataRequired()])
-    submit = SubmitField('Update Password')
+    submit = SubmitField('Atualizar senha')
+
+
+class PasswordResetRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64),
+                                             Email()])
+    submit = SubmitField('Renovar Senha')
+
+
+class PasswordResetForm(FlaskForm):
+    password = PasswordField('Nova Senha', validators=[
+        DataRequired(), EqualTo('password2', message='Senhas devem coincidir')])
+    password2 = PasswordField('Confirmar senha', validators=[DataRequired()])
+    submit = SubmitField('Renovar Senha')
+
+
+class ChangeEmailForm(FlaskForm):
+    email = StringField('New Email', validators=[DataRequired(), Length(1, 64),
+                                                 Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Update Email Address')
+
+    def validate_email(self, field):
+        if Consumer.query.filter_by(email=field.data.lower()).first():
+            raise ValidationError('Email already registered.')

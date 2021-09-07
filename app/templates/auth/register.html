@@ -9,7 +9,7 @@
 {#{ wtf.quick_form(form) }#}
 <!--</div>-->
 
-<form action="/auth/register" class="container" method="post">
+<form action="/auth/register" class="consumerForm" method="post">
     <div class="row">
         <div class="col-md-6">
             <input type="text" name="username", id="username" placeholder="Nome" class="form-control">
@@ -29,14 +29,14 @@
         <div class="col-md-6">
             <input type="text" name="zipcode" id="zipcode" placeholder="CEP" class="form-control">
         </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-block btn-success">Enviar</button>
+        </div>
     </div>
-    <br>
-    <div class="row col-xs-12">
-        <button type="submit" class="btn btn-block btn-success">Enviar</button>
-    </div>
+
 </form>
 <div class="return">
-    <a href="/main">Voltar</a>
+    <button type="button" class="btn"><a href="/">Voltar</a></button>
 </div>
 {% endblock %}
 

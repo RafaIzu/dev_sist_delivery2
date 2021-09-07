@@ -6,15 +6,14 @@ from . import tables
 
 @tables.route('/consumer')
 def consumer():
-    consumers = Consumer.query.with_entities(Consumer.id, Consumer.username,
-                                             Consumer.email)
-    destinies = Destiny.query.with_entities(Destiny.address, Destiny.number,
-                                            Destiny.zipcode)
-    return render_template('consumer/consumer.html', consumers=zip(consumers, destinies))
+    # consumers = Consumer.query.with_entities(Consumer.id, Consumer.username,
+    #                                          Consumer.email)
+    consumers = Consumer.query.all()
+    return render_template('consumer/consumer.html', consumers=consumers)
 
 
 @tables.route('/edit_consumer/<int:id>', methods=['GET', 'POST'])
-def edit_consumer(id):
+def edit_destiny(id):
     consumer = Consumer.query.get(id)
     if request.method == 'POST':
         consumer.destiny.address = request.form['address']
@@ -36,9 +35,7 @@ def delete_consumer(id):
 @tables.route('/product')
 def product():
     products = Product.query.all()
-    themes = Theme().query.all()
-    print(product) 
-    return render_template('product/product.html', products=zip(products, themes))
+    return render_template('product/product.html', products=products)
 
 
 @tables.route("/add_product", methods=["GET", "POST"])
@@ -70,7 +67,10 @@ def edit_product(id):
         product.description = request.form['description']
         product.players = request.form['players']
         product.age = request.form['age']
-        product.theme.name = request.form['theme']
+        new_theme = theme.query.filter_by(name=request.form['theme']).first()
+        print(">>>", new_theme.id)
+        print("--->", product.theme.id)
+        product.theme_id = new_theme.id
         db.session.commit()
         return redirect(url_for('tables.product'))
     return render_template('product/edit_product.html', product=product, themes=themes)

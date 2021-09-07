@@ -2,15 +2,7 @@
 {% block title %}Edição de Cliente{% endblock %}
 {% block page_content %}
 <h1 style="text-align: center;">Editar {{ consumer.name }}</h1>
-<form action="/edit_consumer/{{ consumer.id }}" class="consumer_edit" method="post">
-    <div class="row">
-        <div class="col-md-6">
-            <input type="text" name="name", id="name" placeholder="Nome" class="form-control" value="{{ consumer.username }}">
-        </div>
-        <div class="col-md-6">
-            <input type="text" name="email" id="email" placeholder="E-mail" class="form-control" value="{{ consumer.email }}" >
-        </div>
-    </div>
+<form action="/edit_consumer/{{ consumer.id }}" class="destinyEdit" method="post">
     <div class="col-md-6">
         <input type="text" name="address" id="address" placeholder="Endereço" class="form-control" value="{{ consumer.destiny.address }}">
     </div>
@@ -21,11 +13,11 @@
         <input type="text" name="zipcode" id="zipcode" placeholder="CEP" class="form-control" value="{{ consumer.destiny.zipcode }}">
     </div>
     <br>
-    <div class="row col-xs-12">
-        <button type="submit" class="btn btn-block btn-success">Enviar</button>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-block btn-success btn">Enviar</button>
     </div>
 </form>
 <div class="return">
-    <a href="/consumer">Voltar</a>
+    <button type="button" class="btn"><a href="/">Voltar</a></button>
 </div>
 {% endblock %}

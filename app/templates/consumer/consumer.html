@@ -18,13 +18,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c, d in consumers %}
+                    {% for c in consumers %}
                     <tr>
                         <td scope="row">{{c.username}}</td>
                         <td scope="row">{{c.email}}</td>
-                        <td scope="row">{{d.address}}</td>
-                        <td scope="row">{{d.number}}</td>
-                        <td scope="row">{{d.zipcode}}</td>
+                        <td scope="row">{{c.destiny.address}}</td>
+                        <td scope="row">{{c.destiny.number}}</td>
+                        <td scope="row">{{c.destiny.zipcode}}</td>
                         <td>
                             <a href="/edit_consumer/{{c.id}}">Editar</a>
                             <a href="/delete_consumer/{{c.id}}">Excluir</a>
@@ -37,6 +37,6 @@
     </div>
 </div>
 <div class="return">
-    <a href="/index">Voltar</a>
+    <button type="button" class="btn"><a href="/">Voltar</a></button>
 </div>
 {% endblock %}

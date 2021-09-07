@@ -7,9 +7,9 @@
         <div class="col-xs-12">
             <button type="button" class="btn btn-success"><a href="/add_product">Adicionar produto</a></button>
         </div>
-        <div class="col-md-6">
-            <table class="table">
-                <thead>
+        <div class="mh-100" id="consumer_table">
+            <table class="table table-striped w-auto">
+                <thead class="thead-dark">
                     <tr>
                         <th>Nome</th>
                         <th>Preço</th>
@@ -21,14 +21,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for p, t in products %}
+                    {% for p in products %}
                     <tr>
                         <td>{{p.name}}</td>
                         <td>R$ {{p.price | replace(".", ",")}}</td>
                         <td>{{p.description}}</td>
                         <td>{{p.players}}</td>
                         <td>{{p.age}}</td>
-                        <td>{{t.name}}</td>
+                        <td>{{p.theme.name}}</td>
                         <td>
                             <a href="/edit_product/{{p.id}}">Editar</a>
                             <a href="/delete_product/{{p.id}}">Excluir</a>

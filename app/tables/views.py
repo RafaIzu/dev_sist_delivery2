@@ -19,6 +19,10 @@ def edit_destiny(id):
         consumer.destiny.address = request.form['address']
         consumer.destiny.number = request.form['number']
         consumer.destiny.zipcode = request.form['zipcode']
+        consumer.destiny.neighborhood = request.form['neighborhood']
+        consumer.destiny.complement = request.form['complement']
+        consumer.destiny.city = request.form['city']
+        consumer.destiny.state = request.form['state']
         db.session.commit()
         return redirect(url_for('tables.consumer'))
     return render_template('consumer/edit_destiny.html', consumer=consumer)

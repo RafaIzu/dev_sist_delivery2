@@ -7,7 +7,9 @@ from .. import db
 from ..email import send_email
 
 # codigo abaixo eh um quebra-galho. O certo é usar javascript (que faz tempo que não uso...)
-def validador_cadastro(username, password, email, number, address, zipcode):
+def validador_cadastro(username, password, email, number,
+                       address, zipcode, neighborhood,
+                       city, state):
         print('>>> username: ', username)
         if not username:
             flash('Campo nome não pode ficar vazio!')
@@ -25,13 +27,19 @@ def validador_cadastro(username, password, email, number, address, zipcode):
             flash('Campo endereço não pode ficar vazio!')
             return True
         elif not zipcode:
-            flash('Campo cep não pode ficar vazio!')
+            flash('Campo CEP não pode ficar vazio!')
+            return True
+        elif not neighborhood:
+            flash('Campo bairro não pode ficar vazio!')
+            return True
+        elif not city:
+            flash('Campo cidade não pode ficar vazio!')
+            return True
+        elif not state:
+            flash('Campo estado não pode ficar vazio!')
+            return True
         else:
             return False
-        
-            
-    
-
 
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
@@ -85,7 +93,10 @@ def register():
                                            request.form['email'],
                                            request.form['number'],
                                            request.form['address'],
-                                           request.form['zipcode'])
+                                           request.form['zipcode'],
+                                           request.form['neighborhood'],
+                                           request.form['city'],
+                                           request.form['state'])
         if validate_flag:
             print(">>> redirect to register")
             return redirect(url_for('auth.register'))

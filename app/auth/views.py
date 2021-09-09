@@ -92,7 +92,11 @@ def register():
         # código abaixo é o original. Cuidado para não apaga-lo!
         destiny = Destiny(address=request.form['address'],
                           number=request.form['number'],
-                          zipcode=request.form['zipcode'])
+                          zipcode=request.form['zipcode'],
+                          neighborhood=request.form['neighborhood'],
+                          complement=request.form['complement'],
+                          city=request.form['city'],
+                          state=request.form['state'])
         consumer = Consumer(email=request.form['email'],
                             username=request.form['username'],
                             password=request.form['password'],

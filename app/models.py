@@ -13,7 +13,7 @@ class Product(db.Model):
     price = db.Column(db.Float)
     description = db.Column(db.String(500))
     players = db.Column(db.Integer)
-    age = db.Column(db.Integer)
+    age = db.Column(db.String(150))
     theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
 
 
@@ -30,6 +30,10 @@ class Destiny(db.Model):
     address = db.Column(db.String(200))
     number = db.Column(db.String(100))
     zipcode = db.Column(db.String(100))
+    neighborhood = db.Column(db.String(100))
+    complement = db.Column(db.String(200))
+    city = db.Column(db.String(200))
+    state = db.Column(db.String(100))
     consumer = db.relationship('Consumer', backref="destiny")
 
 

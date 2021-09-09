@@ -16,6 +16,9 @@ const username = document.getElementById('username')
 
 const fillForm = (endereco) => {
     document.getElementById('address').value = endereco.logradouro
+    document.getElementById('neighborhood').value = endereco.bairro
+    document.getElementById('city').value = endereco.localidade
+    document.getElementById('state').value = endereco.uf
 }
 
 

@@ -6,6 +6,32 @@ from ..models import Consumer, Destiny
 from .. import db
 from ..email import send_email
 
+# codigo abaixo eh um quebra-galho. O certo é usar javascript (que faz tempo que não uso...)
+def validador_cadastro(username, password, email, number, address, zipcode):
+        print('>>> username: ', username)
+        if not username:
+            flash('Campo nome não pode ficar vazio!')
+            return True
+        elif not password:
+            flash('Campo senha não pode ficar vazio!')
+            return True
+        elif not email:
+            flash('Campo email não pode ficar vazio!')
+            return True
+        elif not number:
+            flash('Campo numero não pode ficar vazio!')
+            return True
+        elif not address:
+            flash('Campo endereço não pode ficar vazio!')
+            return True
+        elif not zipcode:
+            flash('Campo cep não pode ficar vazio!')
+        else:
+            return False
+        
+            
+    
+
 
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
@@ -53,6 +79,17 @@ def logout():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        # esse validate_flag é um quebra-galho. Tentar fazer com javascript
+        validate_flag = validador_cadastro(request.form['username'],
+                                           request.form['password'],
+                                           request.form['email'],
+                                           request.form['number'],
+                                           request.form['address'],
+                                           request.form['zipcode'])
+        if validate_flag:
+            print(">>> redirect to register")
+            return redirect(url_for('auth.register'))
+        # código abaixo é o original. Cuidado para não apaga-lo!
         destiny = Destiny(address=request.form['address'],
                           number=request.form['number'],
                           zipcode=request.form['zipcode'])

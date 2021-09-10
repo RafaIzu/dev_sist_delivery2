@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
                'O nome do usuário deve apenas conter underline, pontos'
                ' letras e números.')])
     password = PasswordField('Password', validators=[
-        DataRequired(), EqualTo('password2', message='Passwords must match')])
+        DataRequired(), EqualTo('password2', message='Senhas devem coincidir')])
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
     address = StringField('Endereço', validators=[DataRequired()])
     number = StringField('Número', validators=[DataRequired()])
@@ -30,11 +30,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Register')
     def validate_email(self, field):
         if Consumer.query.filter_by(email=field.data).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError('Esse email já foi cadastrado.')
 
     def validate_username(self, field):
         if Consumer.query.filter_by(username=field.data).first():
-            raise ValidationError('Username already in use.')
+            raise ValidationError('Um usuário já está usando este nome.')
 
 
 class ChangePasswordForm(FlaskForm):
@@ -60,11 +60,11 @@ class PasswordResetForm(FlaskForm):
 
 
 class ChangeEmailForm(FlaskForm):
-    email = StringField('New Email', validators=[DataRequired(), Length(1, 64),
+    email = StringField('Novo email', validators=[DataRequired(), Length(1, 64),
                                                  Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
         if Consumer.query.filter_by(email=field.data.lower()).first():
-            raise ValidationError('Email already registered.')
+            raise ValidationError('Esse email já está registrado.')

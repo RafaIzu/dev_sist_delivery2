@@ -117,7 +117,7 @@ def register():
         token = consumer.generate_confirmation_token()
         send_email(consumer.email, 'Confirm Your Account',
                    'auth/email/confirm', consumer=consumer, token=token)
-        flash('A confirmation email has been sent to you by email.')
+        flash('Um email de confirmação foi enviado para você!')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html')
 
@@ -154,7 +154,7 @@ def confirm(token):
         print('>>>Também entrou')
         flash('Você confirmou sua conta. Obrigado!')
     else:
-        flash('The confirmation link is invalid or has expired.')
+        flash('O link de confirmação expirou.')
     return redirect(url_for('main.index'))
 
 
@@ -197,7 +197,7 @@ def change_password():
             flash('Sua senha foi trocada.')
             return redirect(url_for('main.index'))
         else:
-            flash('Invalid Password')
+            flash('Senha inválida')
     return render_template("auth/change_password.html", form=form)
 
 @auth.route('/reset', methods=['GET', 'POST'])
@@ -225,7 +225,7 @@ def password_reset(token):
         if Consumer.reset_password(token, form.password.data):
             db.session.commit()
             flash('Sua senha foi renovada!')
-            return redirect(url_for('main.login'))
+            return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)

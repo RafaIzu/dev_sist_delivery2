@@ -27,7 +27,7 @@
             <input type="text" name="number" id="number" placeholder="Número" class="form-control">
         </div>
         <div class="col-md-6">
-            <input type="text" name="zipcode" id="zipcode" placeholder="CEP" class="form-control">
+            <input type="text" name="zipcode" id="zipcode" placeholder="CEP (ex:.00000-000)" class="form-control">
         </div>
         <div class="col-md-6">
             <input type="text" name="neighborhood" id="neighborhood" placeholder="Bairro" class="form-control">
@@ -54,7 +54,8 @@
 
 {% block scripts %}
 {{ super() }}
-<script src="jquery-3.5.1.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.mask.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}
 

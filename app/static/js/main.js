@@ -22,7 +22,7 @@ const fillForm = (endereco) => {
 
 const pesquisarCep = async() =>{
     try{
-        let re = new RegExp("^\d{5}\-*\d{3}$")
+        let re = new RegExp("^\d{5}\-\d{3}$")
         const zipcode = document.getElementById('zipcode').value
         if (re.test(zipcode)){
             console.log('cep valido!')
@@ -57,9 +57,9 @@ const cleanInputs = () =>{
     },100)
 }
 
-// $(document).ready(function(){
-//     $("#zipcode").mask("99999-999")
-// })
+$(document).ready(function(){
+    $("#zipcode").mask("00000-000")
+})
 
 
 document.getElementById('zipcode')

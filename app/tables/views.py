@@ -1,39 +1,39 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from app import db
-from app.models import Consumer, Product, Destiny, Theme
+from app.models import User, Product, Destiny, Theme
 from . import tables
 
 
-@tables.route('/consumer')
-def consumer():
-    # consumers = Consumer.query.with_entities(Consumer.id, Consumer.username,
-    #                                          Consumer.email)
-    consumers = Consumer.query.all()
-    return render_template('consumer/consumer.html', consumers=consumers)
+@tables.route('/user')
+def user():
+    # users = User.query.with_entities(User.id, User.username,
+    #                                          User.email)
+    users = User.query.all()
+    return render_template('user/user.html', users=users)
 
 
-@tables.route('/edit_consumer/<int:id>', methods=['GET', 'POST'])
+@tables.route('/edit_destiny/<int:id>', methods=['GET', 'POST'])
 def edit_destiny(id):
-    consumer = Consumer.query.get(id)
+    user = User.query.get(id)
     if request.method == 'POST':
-        consumer.destiny.address = request.form['address']
-        consumer.destiny.number = request.form['number']
-        consumer.destiny.zipcode = request.form['zipcode']
-        consumer.destiny.neighborhood = request.form['neighborhood']
-        consumer.destiny.complement = request.form['complement']
-        consumer.destiny.city = request.form['city']
-        consumer.destiny.state = request.form['state']
+        user.destiny.address = request.form['address']
+        user.destiny.number = request.form['number']
+        user.destiny.zipcode = request.form['zipcode']
+        user.destiny.neighborhood = request.form['neighborhood']
+        user.destiny.complement = request.form['complement']
+        user.destiny.city = request.form['city']
+        user.destiny.state = request.form['state']
         db.session.commit()
-        return redirect(url_for('tables.consumer'))
-    return render_template('consumer/edit_destiny.html', consumer=consumer)
+        return redirect(url_for('tables.user'))
+    return render_template('user/edit_destiny.html', user=user)
 
 
-@tables.route('/delete_consumer/<int:id>')
-def delete_consumer(id):
-    consumer = Consumer.query.get(id)
-    db.session.delete(consumer)
+@tables.route('/delete_user/<int:id>')
+def delete_user(id):
+    user = User.query.get(id)
+    db.session.delete(user)
     db.session.commit()
-    return redirect(url_for('tables.consumer'))
+    return redirect(url_for('tables.user'))
 
 
 @tables.route('/product')

@@ -32,7 +32,7 @@
     color: red;
 }
 
-.consumerForm{
+.registerForm{
     display: flex;
     background-color: #FBFCF8;
     border-radius: 3px;
@@ -51,7 +51,7 @@
 
 }
 
-.consumerForm>div>div{
+.registerForm>div>div{
     margin-bottom: 10px;
 }
 

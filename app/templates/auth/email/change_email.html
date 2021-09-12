@@ -1,4 +1,4 @@
-<p>Prezado {{ consumer.name }},</p>
+<p>Prezado {{ user.name }},</p>
 <p>Para confirmar o novo e-mail: <a href="{{ url_for('auth.change_email', token=token, _external=True)}}">Clique aqui</a>.</p>
 <p>Você também pode colar o seguinte link na barra de enderço de seu browser:</p>
 <p>{{ url_for('auth.change_email', token=token, _external=True)}}</p>

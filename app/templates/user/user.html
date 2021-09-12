@@ -1,10 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Clientes{% endblock %}
+{% block title %}Usuários{% endblock %}
 {% block page_content %}
 <h1 style="text-align: center;">Clientes</h1>
 <div class="container">
     <div class="row">
-        <div class="mh-100" id="consumer_table">
+        <div class="mh-100" id="user_table">
             <table class="table table-striped w-auto">
                 <thead class="thead-dark">
                     <tr>
@@ -22,21 +22,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for c in consumers %}
+                    {% for u in users %}
                     <tr>
-                        <td scope="row">{{c.username}}</td>
-                        <td scope="row">{{c.email}}</td>
-                        <td scope="row">{{c.destiny.address}}</td>
-                        <td scope="row">{{c.destiny.number}}</td>
-                        <td scope="row">{{c.destiny.zipcode}}</td>
-                        <td scope="row">{{c.destiny.neighborhood}}</td>
-                        <td scope="row">{{c.destiny.complement}}</td>
-                        <td scope="row">{{c.destiny.city}}</td>
-                        <td scope="row">{{c.destiny.state}}</td>
+                        <td scope="row">{{u.username}}</td>
+                        <td scope="row">{{u.email}}</td>
+                        <td scope="row">{{u.destiny.address}}</td>
+                        <td scope="row">{{u.destiny.number}}</td>
+                        <td scope="row">{{u.destiny.zipcode}}</td>
+                        <td scope="row">{{u.destiny.neighborhood}}</td>
+                        <td scope="row">{{u.destiny.complement}}</td>
+                        <td scope="row">{{u.destiny.city}}</td>
+                        <td scope="row">{{u.destiny.state}}</td>
 
                         <td>
-                            <a href="/edit_consumer/{{c.id}}">Editar</a>
-                            <a href="/delete_consumer/{{c.id}}">Excluir</a>
+                            <a href="/edit_destiny/{{u.id}}">Editar</a>
+                            <a href="/delete_user/{{u.id}}">Excluir</a>
                         </td>
                     </tr>
                     {% endfor %}

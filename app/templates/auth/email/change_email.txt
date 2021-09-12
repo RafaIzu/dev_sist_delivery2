@@ -1,4 +1,4 @@
-Prezado {{ consumer.name }},
+Prezado {{ user.name }},
 Para confirmar o novo e-mail clique no seguinte link:
 {{ url_for('auth.change_email', token=token, _external=True)}}
 

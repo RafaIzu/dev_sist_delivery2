@@ -1,6 +1,6 @@
 'use strict'
 
-const form = document.getElementById('consumerForm')
+const form = document.getElementById('registerForm')
 
 
 const denyEmptyInput = ()=>{
@@ -66,13 +66,13 @@ document.getElementById('zipcode')
         .addEventListener('focusout', pesquisarCep)
 
 
-document.getElementById('consumerForm')
+document.getElementById('registerForm')
         .addEventListener('submit', cleanInputs)
 
 
 
 
 
-// document.getElementById('consumerForm')
+// document.getElementById('userForm')
 //         .addEventListener('submit', denyEmptyInput)
 

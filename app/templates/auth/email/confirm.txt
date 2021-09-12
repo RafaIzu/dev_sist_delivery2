@@ -1,4 +1,4 @@
-Prezado {{ consumer.username}}
+Prezado {{ user.username}}
 Bem vindos ao Jogos Acme
 
 Para confirmar seu acesso, favor clicar no seguinte link:

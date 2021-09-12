@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .forms import ChangeEmailForm, LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetForm, PasswordResetRequestForm
-from ..models import Consumer, Destiny
+from ..models import User, Destiny
 from .. import db
 from ..email import send_email
 
@@ -44,10 +44,10 @@ def validador_cadastro(username, password, email, number,
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
 #     if request.method == 'POST':
-#         consumer = Consumer.query.filter_by(email=request.form['email']).first()
-#         if consumer is not None and consumer.verify_password(request.form['password']):
+#         user = User.query.filter_by(email=request.form['email']).first()
+#         if user is not None and user.verify_password(request.form['password']):
 #             # login_user(user, request.form['remember'])
-#             login_user(consumer)
+#             login_user(user)
 #             next = request.args.get('next')
 #             if next is None or not next.startswith('/'):
 #                 print('>>>banana<<<')
@@ -58,13 +58,14 @@ def validador_cadastro(username, password, email, number,
 #         flash('Invalid username or password. ')
 #     return render_template('auth/login.html')
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        consumer = Consumer.query.filter_by(email=form.email.data.lower()).first()
-        if consumer is not None and consumer.verify_password(request.form['password']):
-            login_user(consumer, form.remember_me.data)
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user is not None and user.verify_password(request.form['password']):
+            login_user(user, form.remember_me.data)
             next = request.args.get('next')
             if next is None or not next.startswith('/'):
                 print('>>>banana<<<')
@@ -108,15 +109,15 @@ def register():
                           complement=request.form['complement'],
                           city=request.form['city'],
                           state=request.form['state'])
-        consumer = Consumer(email=request.form['email'],
+        user = User(email=request.form['email'],
                             username=request.form['username'],
                             password=request.form['password'],
                             destiny=destiny)
-        db.session.add(consumer)
+        db.session.add(user)
         db.session.commit()
-        token = consumer.generate_confirmation_token()
-        send_email(consumer.email, 'Confirm Your Account',
-                   'auth/email/confirm', consumer=consumer, token=token)
+        token = user.generate_confirmation_token()
+        send_email(user.email, 'Confirm Your Account',
+                   'auth/email/confirm', user=user, token=token)
         flash('Um email de confirmação foi enviado para você!')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html')
@@ -128,15 +129,15 @@ def register():
 #         destiny = Destiny(address=form.address.data,
 #                           number=form.number.data,
 #                           zipcode=form.zipcode.data)
-#         consumer = Consumer(email=form.email.data.lower(),
+#         user = User(email=form.email.data.lower(),
 #                             username=form.username.data,
 #                             password=form.password.data,
 #                             destiny=destiny)
-#         db.session.add(consumer)
+#         db.session.add(user)
 #         db.session.commit()
-#         token = consumer.generate_confirmation_token()
-#         send_email(consumer.email, 'Confirm Your Account',
-#                    'auth/email/confirm', user=consumer, token=token)
+#         token = user.generate_confirmation_token()
+#         send_email(user.email, 'Confirm Your Account',
+#                    'auth/email/confirm', user=user, token=token)
 #         flash('A confirmation email has been sent to you by email.')
 #         return redirect(url_for('main.index'))
 #     return render_template('auth/register.html', form=form)
@@ -200,35 +201,38 @@ def change_password():
             flash('Senha inválida')
     return render_template("auth/change_password.html", form=form)
 
+
 @auth.route('/reset', methods=['GET', 'POST'])
 def password_reset_request():
     if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
     form = PasswordResetRequestForm()
     if form.validate_on_submit():
-        consumer = Consumer.query.filter_by(email=form.email.data.lower()).first()
-        if consumer:
-            token = consumer.generate_reset_token()
-            send_email(consumer.email, 'Renovando a sua senha.',
-                       'auth/email/reset_password', consumer=consumer, token=token)
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user:
+            token = user.generate_reset_token()
+            send_email(user.email, 'Renovando a sua senha.',
+                       'auth/email/reset_password', user=user, token=token)
             flash('Um email com instruções para renovar a sua senha foi'
                   'enviado para você')
             return redirect(url_for('auth.login'))
     return render_template('auth/reset_password.html', form=form)
 
+
 @auth.route('/reset/<token>', methods=['GET', 'POST'])
 def password_reset(token):
     if not current_user.is_anonymous:
         return redirect(url_for('main.index'))
-    form =  PasswordResetForm()
+    form = PasswordResetForm()
     if form.validate_on_submit():
-        if Consumer.reset_password(token, form.password.data):
+        if User.reset_password(token, form.password.data):
             db.session.commit()
             flash('Sua senha foi renovada!')
             return redirect(url_for('auth.login'))
         else:
             return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)
+
 
 @auth.route('/change_email', methods=['GET', 'POST'])
 @login_required
@@ -239,7 +243,7 @@ def change_email_request():
             new_email = form.email.data.lower()
             token = current_user.generate_email_change_token(new_email)
             send_email(new_email, 'Confirme o seu endereço de email',
-                       'auth/email/change_email', consumer=current_user,
+                       'auth/email/change_email', user=current_user,
                        token=token)
             flash('Um email com as instruções para confirmar seu novo email'
                   'Foi enviado para você.')
@@ -247,6 +251,7 @@ def change_email_request():
         else:
             flash('Email ou senha inválida.')
     return render_template('auth/change_email.html', form=form)
+
 
 @auth.route('/change_email/<token>', methods=['GET', 'POST'])
 @login_required

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
-from ..models import Consumer
+from ..models import User
 
 
 class LoginForm(FlaskForm):
@@ -29,11 +29,11 @@ class RegistrationForm(FlaskForm):
     zipcode = StringField('Cep', validators=[DataRequired()])
     submit = SubmitField('Register')
     def validate_email(self, field):
-        if Consumer.query.filter_by(email=field.data).first():
+        if User.query.filter_by(email=field.data).first():
             raise ValidationError('Esse email já foi cadastrado.')
 
     def validate_username(self, field):
-        if Consumer.query.filter_by(username=field.data).first():
+        if User.query.filter_by(username=field.data).first():
             raise ValidationError('Um usuário já está usando este nome.')
 
 
@@ -66,5 +66,5 @@ class ChangeEmailForm(FlaskForm):
     submit = SubmitField('Update Email Address')
 
     def validate_email(self, field):
-        if Consumer.query.filter_by(email=field.data.lower()).first():
+        if User.query.filter_by(email=field.data.lower()).first():
             raise ValidationError('Esse email já está registrado.')

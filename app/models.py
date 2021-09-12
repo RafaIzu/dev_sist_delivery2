@@ -34,11 +34,11 @@ class Destiny(db.Model):
     complement = db.Column(db.String(200))
     city = db.Column(db.String(200))
     state = db.Column(db.String(100))
-    consumer = db.relationship('Consumer', backref="destiny")
+    user = db.relationship('User', backref="destiny", lazy='dynamic')
 
 
-class Consumer(UserMixin, db.Model):
-    __tablename__ = 'consumer'
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column('id', db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
@@ -85,11 +85,11 @@ class Consumer(UserMixin, db.Model):
             data = s.loads(token.encode('utf-8'))
         except:
             return False
-        consumer = Consumer.query.get(data.get('reset'))
-        if consumer is None:
+        user = User.query.get(data.get('reset'))
+        if user is None:
             return False
-        consumer.password = new_password
-        db.session.add(consumer)
+        user.password = new_password
+        db.session.add(user)
         return True
     
     def generate_email_change_token(self, new_email, expiration=36000):
@@ -121,4 +121,4 @@ class Consumer(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Consumer.query.get(int(user_id))
+    return User.query.get(int(user_id))

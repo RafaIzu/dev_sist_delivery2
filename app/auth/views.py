@@ -2,15 +2,14 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from . import auth
 from .forms import ChangeEmailForm, LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetForm, PasswordResetRequestForm
-from ..models import User, Destiny
+from ..models import Role, User, Destiny
 from .. import db
 from ..email import send_email
 
 # codigo abaixo eh um quebra-galho. O certo é usar javascript (que faz tempo que não uso...)
-def validador_cadastro(username, password, email, number,
+def validator_empty_space(username, password, email, cpf, telephone, number,
                        address, zipcode, neighborhood,
-                       city, state):
-        print('>>> username: ', username)
+                       city, state):       
         if not username:
             flash('Campo nome não pode ficar vazio!')
             return True
@@ -20,6 +19,12 @@ def validador_cadastro(username, password, email, number,
         elif not email:
             flash('Campo email não pode ficar vazio!')
             return True
+        elif not cpf:
+             flash('Campo cpf não pode ficar vazio!')
+             return True
+        elif not telephone:
+             flash('Campo email não pode ficar vazio!')
+             return True
         elif not number:
             flash('Campo numero não pode ficar vazio!')
             return True
@@ -40,6 +45,25 @@ def validador_cadastro(username, password, email, number,
             return True
         else:
             return False
+
+def validator_already_used(username, email, cpf, telephone):
+    print(">>> FUNCTION CALLED! <<<")
+    print(User.query.filter_by(username=username))
+    print(User.query.filter_by(username=username))
+    if User.query.filter_by(username=username).first():
+        flash('Esse nome já está cadastrado!')
+        return True
+    elif User.query.filter_by(email=email).first():
+        flash('Esse email já está cadastrado!')
+        return True
+    elif User.query.filter_by(cpf=cpf).first():
+        flash('Esse CPF já está cadastrado!')
+        return True
+    elif User.query.filter_by(telephone=telephone).first():
+        flash('Esse telefone já foi cadastrado!')
+        return True
+    else:
+        return False
 
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
@@ -89,16 +113,22 @@ def logout():
 def register():
     if request.method == 'POST':
         # esse validate_flag é um quebra-galho. Tentar fazer com javascript
-        validate_flag = validador_cadastro(request.form['username'],
+        validate_flag1 = validator_empty_space(request.form['username'],
                                            request.form['password'],
                                            request.form['email'],
+                                           request.form['cpf'],
+                                           request.form['telephone'],
                                            request.form['number'],
                                            request.form['address'],
                                            request.form['zipcode'],
                                            request.form['neighborhood'],
                                            request.form['city'],
                                            request.form['state'])
-        if validate_flag:
+        validate_flag2 = validator_already_used(request.form['username'],
+                                                request.form['email'],
+                                                request.form['zipcode'],
+                                                request.form['telephone'])
+        if validate_flag1 or validate_flag2:
             print(">>> redirect to register")
             return redirect(url_for('auth.register'))
         # código abaixo é o original. Cuidado para não apaga-lo!
@@ -109,10 +139,14 @@ def register():
                           complement=request.form['complement'],
                           city=request.form['city'],
                           state=request.form['state'])
+        role = Role.query.filter_by(name='admin').first()
         user = User(email=request.form['email'],
                             username=request.form['username'],
                             password=request.form['password'],
-                            destiny=destiny)
+                            cpf = request.form['cpf'],
+                            telephone = request.form['telephone'],
+                            destiny=destiny,
+                            role=role)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

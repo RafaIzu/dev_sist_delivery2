@@ -36,15 +36,25 @@ class Destiny(db.Model):
     state = db.Column(db.String(100))
     user = db.relationship('User', backref="destiny", lazy='dynamic')
 
+class Role(db.Model):
+    __tablename__ = 'roles'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), unique=True)
+    users = db.relationship('User', backref='role', lazy='dynamic')
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column('id', db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    cpf = db.Column(db.String(64), unique=True, index=True)
+    telephone = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     confirmed = db.Column(db.Boolean, default=False)
     destiny_id = db.Column(db.Integer, db.ForeignKey('destiny.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     @property
     def password(self):

@@ -195,12 +195,14 @@ def confirm(token):
 
 @auth.before_app_request
 def before_request():
-    if current_user.is_authenticated \
-            and not current_user.confirmed \
-            and request.blueprint != 'auth' \
-            and request.endpoint != 'static':
-                print('>>>Sakura<<<')
-                return redirect('auth.unconfirmed')
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed \
+                and request.endpoint \
+                and request.blueprint != 'auth' \
+                and request.endpoint != 'static':
+            print('>>>Sakura<<<')
+            return redirect('auth.unconfirmed')
 
 
 @auth.route('/unconfirmed')

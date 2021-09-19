@@ -15,11 +15,11 @@
 <p>Que bom ve-lo de novo!</p>
 {% endif %}
 </div>
-{% if current_user.is_authenticated %}
+{% if current_user.is_administrator() %}
 <h5 class="selectOption">Selecione uma opção:</h5>
 <div class="menu">
     <ul class="list-group">
-        <li class="list-group-item"><a href="/user">Cadastrar Cliente</a></li>
+        <li class="list-group-item"><a href="/user">Ver clientes</a></li>
         <li class="list-group-item"><a href="/product">Cadastrar Produto</a></li>
     </ul>
 </div>

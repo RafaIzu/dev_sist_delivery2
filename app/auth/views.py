@@ -47,7 +47,7 @@ def validator_empty_space(username, password, email, cpf, telephone, number,
             return False
 
 def validator_already_used(username, email, cpf, telephone):
-    print(">>> FUNCTION CALLED! <<<")
+    print(">>> VALIDATION CALLED! <<<")
     print(User.query.filter_by(username=username))
     print(User.query.filter_by(username=username))
     if User.query.filter_by(username=username).first():

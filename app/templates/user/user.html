@@ -1,53 +1,34 @@
 {% extends "base.html" %}
-{% block title %}Usuários{% endblock %}
-{% block page_content %}
-<h1 style="text-align: center;">Clientes</h1>
-<div class="container">
-    <div class="row">
-        <div class="mh-100" id="user_table">
-            <table class="table table-striped w-auto">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">E-mail</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Número</th>
-                        <th scope="col">CEP</th>
-                        <th scope="col">Bairro</th>
-                        <th scope="col">Complemento</th>
-                        <th scope="col">Cidade</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Ações</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for u in users %}
-                    <tr>
-                        <td scope="row">{{u.username}}</td>
-                        <td scope="row">{{u.role.name}}</td>
-                        <td scope="row">{{u.email}}</td>
-                        <td scope="row">{{u.destiny.address}}</td>
-                        <td scope="row">{{u.destiny.number}}</td>
-                        <td scope="row">{{u.destiny.zipcode}}</td>
-                        <td scope="row">{{u.destiny.neighborhood}}</td>
-                        <td scope="row">{{u.destiny.complement}}</td>
-                        <td scope="row">{{u.destiny.city}}</td>
-                        <td scope="row">{{u.destiny.state}}</td>
 
-                        <td>
-                            <a href="/edit_destiny/{{u.id}}">Editar</a>
-                            <a href="/delete_user/{{u.id}}">Excluir</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+{% block title %}Delivery - {{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ user.username }}</h1>
+    {% if user.username or user.destiny.address %}
+    {% if current_user.is_administrator() %}
+    <h4>Hello Boss</h4>
+    {% endif %}
+    <p>
+        {% if user.username %}{{ user.username }}{% endif %}
+        {% if user.destiny.address %}
+            from <p>{{ user.destiny.address}}</p>
+        {% endif %}
+    </p>
+    {% endif %}
+    {% if current_user.is_administrator %}
+    <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+    {% endif %}
+    {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
+    <p>Membro desde: {{ moment(user.member_since).format('L') }}. Última visita: {{ moment(user.last_seen).fromNow() }}.</p>
+    <p>
+        {% if user == current_user %}
+        <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">Mudar perfil</a>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+        <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=user.id) }}">Edit Profile [Admin]</a>
+        {% endif %}
+    </p>
 </div>
-<div class="return">
-    <button type="button" class="btn"><a href="/">Voltar</a></button>
-</div>
+
 {% endblock %}

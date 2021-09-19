@@ -25,7 +25,7 @@ def edit_destiny(id):
         user.destiny.state = request.form['state']
         db.session.commit()
         return redirect(url_for('tables.user'))
-    return render_template('user/edit_destiny.html', user=user)
+    return render_template('user/edit_profile.html', user=user)
 
 
 @tables.route('/delete_user/<int:id>')

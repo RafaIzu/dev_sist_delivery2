@@ -61,19 +61,21 @@ def edit_profile_admin(id):
         user.destiny.neighborhood = form.neighborhood.data
         user.destiny.city = form.city.data
         user.destiny.state = form.state.data
+        db.session.add(user)
+        db.session.commit()
         flash('Seus dados foram atualizados.')
         return redirect(url_for('.user', username=user.username))
     form.email.data = user.email
     form.username.data = user.username
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
-    form.cpf = user.cpf
-    form.telephone = user.telephone
-    form.zipcode = user.destiny.zipcode
-    form.address = user.destiny.address
-    form.number = user.destiny.number
-    form.complement = user.destiny.complement
-    form.neighborhood = user.destiny.neighborhood
-    form.city = user.destiny.city
-    form.state = user.destiny.state
+    form.cpf.data = user.cpf
+    form.telephone.data = user.telephone
+    form.zipcode.data = user.destiny.zipcode
+    form.address.data = user.destiny.address
+    form.number.data = user.destiny.number
+    form.complement.data = user.destiny.complement
+    form.neighborhood.data = user.destiny.neighborhood
+    form.city.data = user.destiny.city
+    form.state.data = user.destiny.state
     return render_template('user/edit_profile.html', form=form, user=user)

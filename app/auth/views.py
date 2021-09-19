@@ -65,6 +65,15 @@ def validator_already_used(username, email, cpf, telephone):
     else:
         return False
 
+def format_telephone(tel):
+    return tel.replace("(", "").replace(")", "").replace("-", "")
+
+def format_cpf(cpf):
+    return cpf.replace(".", "").replace("-", "")
+
+def format_zipcode(zipcode):
+    return zipcode.replace("-", "")
+
 # @auth.route('/login', methods=['GET', 'POST'])
 # def login():
 #     if request.method == 'POST':
@@ -113,40 +122,44 @@ def logout():
 def register():
     if request.method == 'POST':
         # esse validate_flag é um quebra-galho. Tentar fazer com javascript
-        validate_flag1 = validator_empty_space(request.form['username'],
-                                           request.form['password'],
-                                           request.form['email'],
-                                           request.form['cpf'],
-                                           request.form['telephone'],
-                                           request.form['number'],
-                                           request.form['address'],
-                                           request.form['zipcode'],
-                                           request.form['neighborhood'],
-                                           request.form['city'],
-                                           request.form['state'])
-        validate_flag2 = validator_already_used(request.form['username'],
-                                                request.form['email'],
-                                                request.form['zipcode'],
-                                                request.form['telephone'])
+        validate_flag1 = validator_empty_space(
+            request.form['username'],
+            request.form['password'],
+            request.form['email'],
+            format_cpf(request.form['cpf']),
+            format_telephone(request.form['telephone']),
+            request.form['number'],
+            request.form['address'],
+            format_zipcode(request.form['zipcode']),
+            request.form['neighborhood'],
+            request.form['city'],
+            request.form['state']
+        )
+        validate_flag2 = validator_already_used(
+            request.form['username'],
+            request.form['email'],
+            format_cpf(request.form['cpf']),
+            request.form['telephone']
+        )
         if validate_flag1 or validate_flag2:
             print(">>> redirect to register")
             return redirect(url_for('auth.register'))
         # código abaixo é o original. Cuidado para não apaga-lo!
         destiny = Destiny(address=request.form['address'],
                           number=request.form['number'],
-                          zipcode=request.form['zipcode'],
+                          zipcode=format_zipcode(request.form['zipcode']),
                           neighborhood=request.form['neighborhood'],
                           complement=request.form['complement'],
                           city=request.form['city'],
                           state=request.form['state'])
         role = Role.query.filter_by(name='admin').first()
         user = User(email=request.form['email'],
-                            username=request.form['username'],
-                            password=request.form['password'],
-                            cpf = request.form['cpf'],
-                            telephone = request.form['telephone'],
-                            destiny=destiny,
-                            role=role)
+                    username=request.form['username'],
+                    password=request.form['password'],
+                    cpf=format_cpf(request.form['cpf']),
+                    telephone=format_telephone(request.form['telephone']),
+                    destiny=destiny,
+                    role=role)
         db.session.add(user)
         db.session.commit()
         token = user.generate_confirmation_token()

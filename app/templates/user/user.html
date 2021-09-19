@@ -9,8 +9,9 @@
     {% if user.username or user.destiny.address %}
     <div class="user_info">
         <p>Seu nome de usuário: {% if user.username %}{{ user.username }} {% endif %}</p>
-        <p>Seu endereço: {% if user.destiny.address %} {{ user.destiny.address}} {% endif %}</p>
+        <p>Seu endereço de entrega: {% if user.destiny.address %} {{ user.destiny.address}} {% endif %}</p>
         <p>Seu email: {% if user.email %} {{ user.email }} {% endif %}</p>
+        <p>Seu telefone: {% if user.email %} {{ user.telephone }} {% endif %}</p>
         <p>Membro desde: {{ moment(user.member_since).format('L') }}. Última visita: {{ moment(user.last_seen).fromNow() }}.</p>
     </div>
     {% endif %}

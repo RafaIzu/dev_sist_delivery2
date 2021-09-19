@@ -14,7 +14,9 @@ class Config:
     # MAIL_USERNAME = 'appleizukawa'
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-
+    TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
+    TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+    TWILIO_PHONE_NUMBER = os.environ.get('TWILIO_PHONE_NUMBER')
     DELIVERY_MAIL_SUBJECT_PREFIX = '[Delivery]'
     DELIVERY_MAIL_SENDER = 'Delivery Admin <appleizukawa@gmail.com>'
     DELIVERY_ADMIN = os.environ.get('DELIVERY_ADMIN')
@@ -46,6 +48,5 @@ config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-
     'default': DevelopmentConfig
 }

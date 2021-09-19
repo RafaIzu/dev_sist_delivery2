@@ -5,6 +5,7 @@ from .forms import ChangeEmailForm, LoginForm, RegistrationForm, ChangePasswordF
 from ..models import Role, User, Destiny
 from .. import db
 from ..email import send_email
+from ..sms import Sms
 
 # codigo abaixo eh um quebra-galho. O certo é usar javascript (que faz tempo que não uso...)
 def validator_empty_space(username, password, email, cpf, telephone, number,
@@ -166,6 +167,14 @@ def register():
         send_email(user.email, 'Confirm Your Account',
                    'auth/email/confirm', user=user, token=token)
         flash('Um email de confirmação foi enviado para você!')
+        # enviando um SMS
+        try:
+            Sms().send_sms('Jogos ACME - Um email de confirmação foi enviado'
+                           'para você!',
+                           format_telephone(request.form['telephone']))
+        except:
+            print('No sms for you. Sorry baby =ˆ(')
+            pass
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html')
 

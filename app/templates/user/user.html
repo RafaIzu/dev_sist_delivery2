@@ -4,6 +4,7 @@
 
 {% block page_content %}
 <div class="page-header">
+    <img class="img-rounded profile-thumbnail" src="{{ user.gravatar(size=256) }}">
     <h1>{{ user.username }}</h1>
     {% if current_user.is_administrator() %} <h4>Hello Boss</h4> {% endif %}
     {% if user.username or user.destiny.address %}

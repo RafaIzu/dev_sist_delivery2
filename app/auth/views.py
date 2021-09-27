@@ -169,7 +169,7 @@ def register():
         flash('Um email de confirmação foi enviado para você!')
         # enviando um SMS
         try:
-            Sms().send_sms('Jogos ACME - Um email de confirmação foi enviado'
+            Sms().send_sms('Jogos ACME - Um email de confirmação foi enviado '
                            'para você!',
                            format_telephone(request.form['telephone']))
         except:

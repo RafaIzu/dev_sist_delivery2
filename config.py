@@ -28,11 +28,12 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or\
-        'sqlite:///' + os.path.join(basedir, 'delivery.sqlite')
-    # DB_PASSWORD = os.environ.get("DB_PASSWORD")
-    # SQLALCHEMY_DATABASE_URI = f"postgresql://rafaelizukawa:{DB_PASSWORD}" \
-    #                           f"@localhost:5432/deliverytest1" # se for usar o postgres
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or\
+    #     'sqlite:///' + os.path.join(basedir, 'delivery.sqlite') # se for usar o sqlite
+    DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    current_db = "deliverytest2"
+    SQLALCHEMY_DATABASE_URI = f"postgresql://rafaelizukawa:{DB_PASSWORD}" \
+                              f"@localhost:5432/{current_db}" # se for usar o postgres
 
 
 class TestingConfig(Config):

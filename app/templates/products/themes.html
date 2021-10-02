@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Temas{% endblock %}
+{% block page_content %}
+<h1 style="text-align: center;">Temas</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-success"><a href="/add_themes">Adicionar tema</a></button>
+        </div>
+        <div class="mh-100" id="theme_table">
+            <table class="table table-striped w-auto">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in themes %}
+                    <tr>
+                        <td>{{t.id}}</td>
+                        <td>{{t.name}}</td>
+                        <td>
+                            <a href="/delete_themes/{{t.id}}">Excluir</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="return">
+        <button type="button" class="btn btn-dark"><a href="/">Voltar</a></button>
+    </div>
+</div>
+{% endblock %}

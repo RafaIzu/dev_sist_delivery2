@@ -9,25 +9,39 @@ from . import db
 
 
 class Product(db.Model):
-    __tablename__ = 'product'
+    __tablename__ = 'products'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(150))
     price = db.Column(db.Float)
     description = db.Column(db.String(500))
     players = db.Column(db.Integer)
     age = db.Column(db.String(150))
-    theme_id = db.Column(db.Integer, db.ForeignKey('theme.id'))
+    theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'))
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
 
 class Theme(db.Model):
-    __tablename__ = 'theme'
+    __tablename__ = 'themes'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(150))
-    product = db.relationship('Product', backref="theme")
+    name = db.Column(db.String(150), nullable=False, unique=True)
+    product = db.relationship('Product', backref="theme", lazy='dynamic')
+
+class Brand(db.Model):
+    __tablename__ = 'brands'
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(150), nullable=False, unique=True)
+    product = db.relationship('Product', backref="brand", lazy='dynamic')
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(150), nullable=False, unique=True)
+    product = db.relationship('Product', backref="category", lazy='dynamic')
 
 
 class Destiny(db.Model):
-    __tablename__ = 'destiny'
+    __tablename__ = 'destinies'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     address = db.Column(db.String(200))
     number = db.Column(db.String(100))
@@ -109,7 +123,7 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     cpf = db.Column(db.String(64), unique=True, index=True)
     telephone = db.Column(db.String(64), unique=True, index=True)
-    destiny_id = db.Column(db.Integer, db.ForeignKey('destiny.id'))
+    destiny_id = db.Column(db.Integer, db.ForeignKey('destinies.id'))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     avatar_hash = db.Column(db.String(32))

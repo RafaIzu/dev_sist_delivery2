@@ -43,7 +43,7 @@ def upgrade():
     sa.Column('name', sa.String(length=150), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('product',
+    op.create_table('products',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=150), nullable=True),
     sa.Column('price', sa.Float(), nullable=True),
@@ -85,7 +85,7 @@ def downgrade():
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_index(op.f('ix_users_cpf'), table_name='users')
     op.drop_table('users')
-    op.drop_table('product')
+    op.drop_table('products')
     op.drop_table('theme')
     op.drop_index(op.f('ix_roles_default'), table_name='roles')
     op.drop_table('roles')

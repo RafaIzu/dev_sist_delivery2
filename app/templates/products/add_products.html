@@ -21,10 +21,26 @@
             <input type="text" name="age" id="age" placeholder="Faixa etaria" class="form-control">
         </div>
         <div class="col-md-6">
-            <label for='theme'>Categoria</label>
+            <label for='theme'>Tema</label>
             <select name="theme",id="theme", class="form-control" >
-                {% for theme in themes %}
-              <option>{{theme.name}}</option>
+                {% for t in themes %}
+              <option>{{t.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for='brand'>Marca</label>
+            <select name="brand",id="brand", class="form-control" >
+                {% for b in brands %}
+              <option>{{b.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for='category'>Categoria</label>
+            <select name="category",id="category", class="form-control" >
+                {% for c in categories %}
+              <option>{{c.name}}</option>
                 {% endfor %}
             </select>
         </div>

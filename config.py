@@ -11,7 +11,6 @@ class Config:
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'true').lower() in\
         ['true', 'on', '1']
 
-    # MAIL_USERNAME = 'appleizukawa'
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID')
@@ -31,6 +30,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or\
         'sqlite:///' + os.path.join(basedir, 'delivery.sqlite')
+    # DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    # SQLALCHEMY_DATABASE_URI = f"postgresql://rafaelizukawa:{DB_PASSWORD}" \
+    #                           f"@localhost:5432/deliverytest1" # se for usar o postgres
 
 
 class TestingConfig(Config):

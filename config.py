@@ -20,7 +20,7 @@ class Config:
     DELIVERY_MAIL_SENDER = 'Delivery Admin <appleizukawa@gmail.com>'
     DELIVERY_ADMIN = os.environ.get('DELIVERY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'static/images')
+    UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'app/static/images')
 
     @staticmethod
     def init_app(app):
@@ -32,7 +32,8 @@ class DevelopmentConfig(Config):
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or\
     #     'sqlite:///' + os.path.join(basedir, 'delivery.sqlite') # se for usar o sqlite
     DB_PASSWORD = os.environ.get("DB_PASSWORD")
-    current_db = "deliverytest2"
+    # current_db = "deliverytest2" # usado até 3/10
+    current_db = "deliverytest3"
     SQLALCHEMY_DATABASE_URI = f"postgresql://rafaelizukawa:{DB_PASSWORD}" \
                               f"@localhost:5432/{current_db}" # se for usar o postgres
 

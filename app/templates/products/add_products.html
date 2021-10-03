@@ -1,56 +1,62 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Produtos{% endblock %}
 {% block page_content %}
 <h1 style="text-align: center;">Cadastrar novo produto</h1>
 
-<form action="/add_products" class="productAdd" method="post">
-    <div class="form-group">
-        <div class="col-md-6">
-            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <input type="text" name="price" id="price" placeholder="Preço" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <textarea name="description" id="description" cols="68" rows="5" placeholder="Descrição"></textarea>
-        </div>
-        <div class="col-md-6">
-            <input type="text" name="players" id="players" placeholder="Nº  jogadores" class="form-control">
-        </div>
-        <div class="col-md-6 input">
-            <input type="text" name="age" id="age" placeholder="Faixa etaria" class="form-control">
-        </div>
-        <div class="col-md-6">
-            <label for='theme'>Tema</label>
-            <select name="theme",id="theme", class="form-control" >
-                {% for t in themes %}
-              <option>{{t.name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for='brand'>Marca</label>
-            <select name="brand",id="brand", class="form-control" >
-                {% for b in brands %}
-              <option>{{b.name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label for='category'>Categoria</label>
-            <select name="category",id="category", class="form-control" >
-                {% for c in categories %}
-              <option>{{c.name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </div>
-    <br>
-    <div class="row col-xs-12">
-        <button type="submit" class="btn btn-block btn-success">Enviar</button>
-    </div>
-</form>
-<div class="return">
-    <a href="/products">Voltar</a>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <button type="button" class="btn btn-dark"><a href="/products">Voltar</a></button>
 </div>
+
+<!--<form action="/add_products" class="productAdd" method="post">-->
+<!--    <div class="form-group">-->
+<!--        <div class="col-md-6">-->
+<!--            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <input type="text" name="price" id="price" placeholder="Preço" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <textarea name="description" id="description" cols="68" rows="5" placeholder="Descrição"></textarea>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <input type="text" name="players" id="players" placeholder="Nº  jogadores" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="col-md-6 input">-->
+<!--            <input type="text" name="age" id="age" placeholder="Faixa etaria" class="form-control">-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <label for='theme'>Tema</label>-->
+<!--            <select name="theme",id="theme", class="form-control" >-->
+<!--                {% for t in themes %}-->
+<!--              <option>{{t.name}}</option>-->
+<!--                {% endfor %}-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <label for='brand'>Marca</label>-->
+<!--            <select name="brand",id="brand", class="form-control" >-->
+<!--                {% for b in brands %}-->
+<!--              <option>{{b.name}}</option>-->
+<!--                {% endfor %}-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="col-md-6">-->
+<!--            <label for='category'>Categoria</label>-->
+<!--            <select name="category",id="category", class="form-control" >-->
+<!--                {% for c in categories %}-->
+<!--              <option>{{c.name}}</option>-->
+<!--                {% endfor %}-->
+<!--            </select>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div class="row col-xs-12">-->
+<!--        <button type="submit" class="btn btn-block btn-success">Enviar</button>-->
+<!--    </div>-->
+<!--</form>-->
+<!--<div class="return">-->
+<!--    <a href="/products">Voltar</a>-->
+<!--</div>-->
 {% endblock %}

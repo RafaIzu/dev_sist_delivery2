@@ -13,9 +13,10 @@ class Product(db.Model):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(150))
     price = db.Column(db.Float)
-    description = db.Column(db.String(500))
-    players = db.Column(db.Integer)
+    description = db.Column(db.Text)
+    players = db.Column(db.String(150))
     age = db.Column(db.String(150))
+    image = db.Column(db.String(150), default='image.png') # talvez é melhor aumentar o tamanho da string
     theme_id = db.Column(db.Integer, db.ForeignKey('themes.id'))
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
@@ -132,7 +133,7 @@ class User(UserMixin, db.Model):
         super(User, self).__init__(**kwargs)
         if self.role is None:
             if self.email == current_app.config['DELIVERY_ADMIN']:
-                print('A new admin has born!')
+                print('>>> A new admin has born!!! <<<')
                 self.role = Role.query.filter_by(name='Administrator').first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()

@@ -1,9 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app import db, photos
 from app.models import User, Product, Destiny, Theme, Brand, Category
 from . import products
 from ..decorators import admin_required
-from .forms import AddTheme, AddBrand, AddCategory
+from .forms import AddProduct, AddTheme, AddBrand, AddCategory
+import secrets
 
 
 # @products.route('/user')
@@ -51,32 +52,58 @@ def product():
     return render_template('products/products.html', products=products)
 
 
+# @products.route('/add_products', methods=["GET", "POST"])
+# @admin_required
+# def add_product():
+#     theme = Theme()
+#     themes = Theme.query.all()
+#     brand = Brand()
+#     brands = Brand.query.all()
+#     category = Category()
+#     categories = Category.query.all()
+#     if request.method == 'POST':
+#         theme_got = request.form['theme']
+#         brand_got = request.form['brand']
+#         category_got = request.form['category']
+#         product = Product(name=request.form['name'],
+#                           price=request.form['price'].replace(",", "."),
+#                           description=request.form['description'],
+#                           players=request.form['players'],
+#                           age=request.form['age'],
+#                           theme=theme.query.filter_by(name=theme_got).first(),
+#                           brand=brand.query.filter_by(name=brand_got).first(),
+#                           category=category.query.filter_by(name=category_got).first())
+#         db.session.add(product)
+#         db.session.commit()
+#         return redirect(url_for('products.product'))
+#     return render_template('products/add_products.html', themes=themes,
+#                            brands=brands, categories=categories)
+
 @products.route('/add_products', methods=["GET", "POST"])
 @admin_required
 def add_product():
     theme = Theme()
-    themes = Theme.query.all()
     brand = Brand()
-    brands = Brand.query.all()
     category = Category()
-    categories = Category.query.all()
-    if request.method == 'POST':
-        theme_got = request.form['theme']
-        brand_got = request.form['brand']
-        category_got = request.form['category']
-        product = Product(name=request.form['name'],
-                          price=request.form['price'].replace(",", "."),
-                          description=request.form['description'],
-                          players=request.form['players'],
-                          age=request.form['age'],
-                          theme=theme.query.filter_by(name=theme_got).first(),
-                          brand=brand.query.filter_by(name=brand_got).first(),
-                          category=category.query.filter_by(name=category_got).first())
+    form = AddProduct()
+    if form.validate_on_submit():
+        image = photos.save(request.files.get('image'),
+                            name=secrets.token_hex(10) + ".")
+        print(">>>", image)
+        product = Product(name=form.name.data,
+                          price=float(form.price.data.replace(",", ".")),
+                          description=form.description.data,
+                          players=form.players.data,
+                          age=form.age.data,
+                          image=image,
+                          theme=theme.query.filter_by(id=form.theme.data).first(),
+                          brand=brand.query.filter_by(id=form.brand.data).first(),
+                          category=category.query.filter_by(id=form.category.data).first())
         db.session.add(product)
         db.session.commit()
+        flash(f"O produto {form.name.data} foi adicionado ao banco de dados.", "success")
         return redirect(url_for('products.product'))
-    return render_template('products/add_products.html', themes=themes,
-                           brands=brands, categories=categories)
+    return render_template('products/add_products.html', form=form)
 
 
 @products.route('/edit_products/<int:id>', methods=['GET', 'POST'])

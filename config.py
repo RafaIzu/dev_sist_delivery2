@@ -20,6 +20,7 @@ class Config:
     DELIVERY_MAIL_SENDER = 'Delivery Admin <appleizukawa@gmail.com>'
     DELIVERY_ADMIN = os.environ.get('DELIVERY_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'static/images')
 
     @staticmethod
     def init_app(app):

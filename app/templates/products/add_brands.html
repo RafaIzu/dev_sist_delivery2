@@ -1,20 +1,26 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Marca{% endblock %}
 {% block page_content %}
 <h1 style="text-align: center;">Cadastrar nova marca</h1>
 
-<form action="/add_brands" class="brandAdd" method="post">
-    <div class="form-group">
-        <div class="col-md-6">
-            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">
-        </div>
-    </div>
-    <br>
-    <div class="row col-xs-12">
-        <button type="submit" class="btn btn-block btn-success">Enviar</button>
-    </div>
-</form>
-<div class="return">
-    <a href="/brands">Voltar</a>
+<div class="col-md-4">
+    {{ wtf.quick_form(form) }}
+    <button type="button" class="btn btn-dark"><a href="/brands">Voltar</a></button>
 </div>
+
+<!--<form action="/add_brands" class="brandAdd" method="post">-->
+<!--    <div class="form-group">-->
+<!--        <div class="col-md-6">-->
+<!--            <input type="text" name="name", id="name" placeholder="Nome" class="form-control">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    <div class="row col-xs-12">-->
+<!--        <button type="submit" class="btn btn-block btn-success">Enviar</button>-->
+<!--    </div>-->
+<!--</form>-->
+<!--<div class="return">-->
+<!--    <a href="/brands">Voltar</a>-->
+<!--</div>-->
 {% endblock %}

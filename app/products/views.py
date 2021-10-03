@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from app import db
+from app import db, photos
 from app.models import User, Product, Destiny, Theme, Brand, Category
 from . import products
 from ..decorators import admin_required
+from .forms import AddTheme, AddBrand, AddCategory
 
 
 # @products.route('/user')
@@ -123,17 +124,27 @@ def theme():
     return render_template('products/themes.html', themes=themes)
 
 
+# @products.route("/add_themes", methods=["GET", "POST"])
+# @admin_required
+# def add_theme():
+#     themes = Theme.query.all()
+#     if request.method == 'POST':
+#         theme = Theme(name=request.form['name'])
+#         db.session.add(theme)
+#         db.session.commit()
+#         return redirect(url_for('products.theme'))
+#     return render_template('products/add_themes.html', themes=themes)
+
 @products.route("/add_themes", methods=["GET", "POST"])
 @admin_required
 def add_theme():
-    themes = Theme.query.all()
-    if request.method == 'POST':
-        theme = Theme(name=request.form['name'])
+    form = AddTheme()
+    if form.validate_on_submit():
+        theme = Theme(name=form.name.data)
         db.session.add(theme)
         db.session.commit()
         return redirect(url_for('products.theme'))
-    return render_template('products/add_themes.html', themes=themes)
-
+    return render_template('products/add_themes.html', form=form)
 
 @products.route('/delete_themes/<int:id>')
 @admin_required
@@ -150,16 +161,27 @@ def brand():
     return render_template('products/brands.html', brands=brands)
 
 
+# @products.route("/add_brands", methods=["GET", "POST"])
+# @admin_required
+# def add_brand():
+#     brands = Brand.query.all()
+#     if request.method == 'POST':
+#         brand = Brand(name=request.form['name'])
+#         db.session.add(brand)
+#         db.session.commit()
+#         return redirect(url_for('products.brand'))
+#     return render_template('products/add_brands.html', brands=brands)
+
 @products.route("/add_brands", methods=["GET", "POST"])
 @admin_required
 def add_brand():
-    brands = Brand.query.all()
-    if request.method == 'POST':
-        brand = Brand(name=request.form['name'])
+    form = AddBrand()
+    if form.validate_on_submit():
+        brand = Brand(name=form.name.data)
         db.session.add(brand)
         db.session.commit()
         return redirect(url_for('products.brand'))
-    return render_template('products/add_brands.html', brands=brands)
+    return render_template('products/add_brands.html', form=form)
 
 
 @products.route('/delete_brands/<int:id>')
@@ -178,16 +200,27 @@ def category():
     return render_template('products/categories.html', categories=categories)
 
 
+# @products.route("/add_categories", methods=["GET", "POST"])
+# def add_category():
+#     categories = Category.query.all()
+#     if request.method == 'POST':
+#         category = Category(name=request.form['name'])
+#         db.session.add(category)
+#         db.session.commit()
+#         return redirect(url_for('products.category'))
+#     return render_template('products/add_categories.html', categories=categories)
+
+
 @products.route("/add_categories", methods=["GET", "POST"])
+@admin_required
 def add_category():
-    categories = Category.query.all()
-    if request.method == 'POST':
-        category = Category(name=request.form['name'])
+    form = AddCategory()
+    if form.validate_on_submit():
+        category = Category(name=form.name.data)
         db.session.add(category)
         db.session.commit()
         return redirect(url_for('products.category'))
-    return render_template('products/add_categories.html', categories=categories)
-
+    return render_template('products/add_categories.html', form=form)
 
 @products.route('/delete_categories/<int:id>')
 def delete_category(id):

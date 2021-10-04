@@ -5,7 +5,9 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
-            <button type="button" class="btn btn-success"><a href="/add_products">Adicionar produto</a></button>
+            <button id="addButtonProducts" type="button" class="btn btn-success"><a href="/add_products">Adicionar produto</a></button>
+            <button id="backButtonProducts" type="button" class="btn btn-dark"><a href="{{ url_for('products.product_selection')}}">Voltar</a></button>
+    </div>
         </div>
         <div class="mh-100" id="product_table">
             <table class="table table-striped w-auto">
@@ -47,9 +49,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="return">
-        <button type="button" class="btn btn-dark"><a href="{{ url_for('products.product_selection')}}">Voltar</a></button>
     </div>
 </div>
 {% endblock %}

@@ -3,7 +3,7 @@ from app import db, photos
 from app.models import User, Product, Destiny, Theme, Brand, Category
 from . import products
 from ..decorators import admin_required
-from .forms import AddProduct, AddTheme, AddBrand, AddCategory
+from .forms import AddProduct, AddTheme, AddBrand, AddCategory, EditProduct
 import secrets
 
 
@@ -101,46 +101,78 @@ def add_product():
                           category=category.query.filter_by(id=form.category.data).first())
         db.session.add(product)
         db.session.commit()
-        flash(f"O produto {form.name.data} foi adicionado ao banco de dados.", "success")
+        flash(f"O produto {form.name.data} foi adicionado com sucesso",
+              "success")
         return redirect(url_for('products.product'))
     return render_template('products/add_products.html', form=form)
 
 
+# @products.route('/edit_products/<int:id>', methods=['GET', 'POST'])
+# @admin_required
+# def edit_product(id):
+#     product = Product.query.get(id)
+#     theme = Theme()
+#     themes = Theme.query.all()
+#     brand = Brand()
+#     brands = Brand.query.all()
+#     category = Category()
+#     categories = Category.query.all()
+#     if request.method == 'POST':
+#         product.name = request.form['name']
+#         product.price = request.form['price']
+#         product.description = request.form['description']
+#         product.players = request.form['players']
+#         product.age = request.form['age']
+#         new_theme = theme.query.filter_by(name=request.form['theme']).first()
+#         product.theme_id = new_theme.id
+#         new_brand = brand.query.filter_by(name=request.form['brand']).first()
+#         product.brand_id = new_brand.id
+#         new_category = category.query.filter_by(name=request.form['category']).first()
+#         product.category_id = new_category.id
+#         db.session.add(product)
+#         db.session.commit()
+#         return redirect(url_for('products.product'))
+#     return render_template('products/edit_products.html', product=product,
+#                            themes=themes, categories=categories, brands=brands)
+
 @products.route('/edit_products/<int:id>', methods=['GET', 'POST'])
 @admin_required
 def edit_product(id):
-    product = Product.query.get(id)
-    theme = Theme()
-    themes = Theme.query.all()
-    brand = Brand()
-    brands = Brand.query.all()
-    category = Category()
-    categories = Category.query.all()
-    if request.method == 'POST':
-        product.name = request.form['name']
-        product.price = request.form['price']
-        product.description = request.form['description']
-        product.players = request.form['players']
-        product.age = request.form['age']
-        new_theme = theme.query.filter_by(name=request.form['theme']).first()
-        product.theme_id = new_theme.id
-        new_brand = brand.query.filter_by(name=request.form['brand']).first()
-        product.brand_id = new_brand.id
-        new_category = category.query.filter_by(name=request.form['category']).first()
-        product.category_id = new_category.id
+    product = Product.query.get_or_404(id)
+    form = EditProduct()
+    if form.validate_on_submit():
+        image = request.files.get('image')
+        print(">>> ", image.filename)
+        product.name = form.name.data
+        product.price = float(form.price.data.replace(",", "."))
+        product.description = form.description.data
+        product.players = form.players.data
+        product.age = form.age.data
+        product.image = image.filename
+        product.theme_id = form.theme.data
+        product.brand_id = form.theme.data
+        product.category_id = form.category.data
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('products.product'))
-    return render_template('products/edit_products.html', product=product,
-                           themes=themes, categories=categories, brands=brands)
-
+    form.name.data = product.name
+    form.price.data = str(product.price).replace(".", ",")
+    form.description.data = product.description
+    form.players.data = product.players
+    form.age.data = product.age
+    form.theme.data = Theme.query.get(product.theme_id).name
+    form.brand.data = Brand.query.get(product.brand_id).name
+    form.category.data = Category.query.get(product.category_id).name
+    return render_template('products/edit_products.html', form=form, product=product)
 
 @products.route('/delete_products/<int:id>')
 @admin_required
 def delete_product(id):
     product = Product.query.get(id)
+    product_name = product.name
     db.session.delete(product)
     db.session.commit()
+    flash(f"O produto {product_name} foi removido com sucesso!", "success")
     return redirect(url_for('products.product'))
 
 
@@ -170,6 +202,8 @@ def add_theme():
         theme = Theme(name=form.name.data)
         db.session.add(theme)
         db.session.commit()
+        flash(f"O tema {form.name.data} foi adicionado com sucesso.",
+              "success")
         return redirect(url_for('products.theme'))
     return render_template('products/add_themes.html', form=form)
 
@@ -177,8 +211,10 @@ def add_theme():
 @admin_required
 def delete_theme(id):
     theme = Theme.query.get(id)
+    theme_name = theme.name
     db.session.delete(theme)
     db.session.commit()
+    flash(f"O tema {theme_name} foi removido com sucesso!", "success")
     return redirect(url_for('products.theme'))
 
 @products.route('/brands')
@@ -207,6 +243,8 @@ def add_brand():
         brand = Brand(name=form.name.data)
         db.session.add(brand)
         db.session.commit()
+        flash(f"A marca {form.name.data} foi adicionada com sucesso.",
+              "success")
         return redirect(url_for('products.brand'))
     return render_template('products/add_brands.html', form=form)
 
@@ -215,8 +253,11 @@ def add_brand():
 @admin_required
 def delete_brand(id):
     brand = Brand.query.get(id)
+    brand_name = brand.name
     db.session.delete(brand)
     db.session.commit()
+    flash(f"A marca {brand_name} foi removida com sucesso.",
+          "success")
     return redirect(url_for('products.brand'))
 
 
@@ -246,14 +287,17 @@ def add_category():
         category = Category(name=form.name.data)
         db.session.add(category)
         db.session.commit()
+        flash(f"A categoria {form.name.data} foi adicionada com sucesso.",
+              "success")
         return redirect(url_for('products.category'))
     return render_template('products/add_categories.html', form=form)
 
 @products.route('/delete_categories/<int:id>')
 def delete_category(id):
-    print('I got this ID ====>', id)
     category = Category.query.get(id)
-    print('I got this CATEGORY ====>', id)
+    category_name = category.name
     db.session.delete(category)
     db.session.commit()
+    flash(f"A categoria {category_name} foi removida com sucesso.",
+          "success")
     return redirect(url_for('products.category'))

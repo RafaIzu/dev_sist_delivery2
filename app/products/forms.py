@@ -28,6 +28,30 @@ class AddProduct(FlaskForm):
                                  for category in Category.query.order_by(Category.name).all()]
 
 
+class EditProduct(FlaskForm):
+    name = StringField("Nome", validators=[DataRequired(), Length(1, 64)])
+    price = StringField("Preço", validators=[DataRequired()])
+    description = TextAreaField("Descrição", validators=[DataRequired()])
+    players = IntegerField("Jogadores", validators=[DataRequired()])
+    age = StringField("Idade", validators=[DataRequired(), Length(1, 15)])
+    brand = SelectField('Marca', coerce=int)
+    theme = SelectField('Tema', coerce=int)
+    category = SelectField("Categoria", coerce=int)
+    image = FileField("Imagem", validators=[
+        FileRequired(), FileAllowed(['jpg', 'png', 'gif', 'jpeg'],
+                                    "Images only")])
+    submit = SubmitField("Enviar")
+
+    def __init__(self, *args, **kwargs):
+        super(EditProduct, self).__init__(*args, **kwargs)
+        self.brand.choices = [(brand.id, brand.name)
+                              for brand in Brand.query.order_by(Brand.name).all()]
+        self.theme.choices = [(theme.id, theme.name)
+                              for theme in Theme.query.order_by(Theme.name).all()]
+        self.category.choices = [(category.id, category.name)
+                                 for category in Category.query.order_by(Category.name).all()]
+
+
 class AddBrand(FlaskForm):
     name = StringField("Nome", validators=[DataRequired(), Length(1, 25)])
     submit = SubmitField("Enviar")

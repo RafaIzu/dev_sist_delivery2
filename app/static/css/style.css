@@ -111,4 +111,20 @@
     height: 60px;
 }
 
+.editProductImg{
+    width: 200px;
+    height: 150px;
+    margin: 5px, 5px, 5px, 5px;
+}
+
+button#backButtonProducts{
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+button#addButtonProducts{
+    margin-right: 40px;
+    margin-bottom: 10px;
+}
+
 

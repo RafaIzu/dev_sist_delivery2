@@ -6,61 +6,6 @@
 <div class="col-md-4">
     <img class="editProductImg" src="{{ url_for('static', filename='images/' + product.image) }}">
     {{ wtf.quick_form(form) }}
-    <button id="backButtonProducts" type="button" class="btn btn-dark"><a href="/products">Voltar</a></button>
+    <button id="backButtonProducts" type="button" class="btn btn-warning"><a href="/products">Voltar</a></button>
 </div>
-<!--<form action="/edit_products/{{ product.id }}" class="productEdit" method="post">-->
-<!--    <div class="row">-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='name'>Nome</label>-->
-<!--            <input type="text" name="name", id="name" placeholder="Nome" class="form-control" value="{{ product.name }}">-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='price'>Preço</label>-->
-<!--            <input type="text" name="price" id="price" placeholder="Preço" class="form-control" value="{{ product.price }}" >-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='description'>Descrição</label>-->
-<!--            <textarea name="description" id="description" cols="68" rows="5" placeholder="Descrição"></textarea>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='players'>N. Jogadores</label>-->
-<!--            <input type="text" name="players" id="players" placeholder="Nº  jogadores" class="form-control" value="{{ product.players }}" >-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='age'>Idade</label>-->
-<!--            <input type="text" name="age" id="age" placeholder="Faixa etária" class="form-control" value="{{ product.age }}" >-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='theme'>Tema</label>-->
-<!--            <select name="theme",id="theme", class="form-control" >-->
-<!--                {% for t in themes %}-->
-<!--              <option>{{t.name}}</option>-->
-<!--                {% endfor %}-->
-<!--            </select>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='brand'>Marca</label>-->
-<!--            <select name="brand",id="brand", class="form-control" >-->
-<!--                {% for b in brands %}-->
-<!--              <option>{{b.name}}</option>-->
-<!--                {% endfor %}-->
-<!--            </select>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--            <label for='category'>Categoria</label>-->
-<!--            <select name="category",id="category", class="form-control" >-->
-<!--                {% for c in categories %}-->
-<!--              <option>{{c.name}}</option>-->
-<!--                {% endfor %}-->
-<!--            </select>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <br>-->
-<!--    <div class="row col-xs-12">-->
-<!--        <button type="submit" class="btn btn-block btn-success">Enviar</button>-->
-<!--    </div>-->
-<!--</form>-->
-<!--<div class="return">-->
-<!--    <a href="/products">Voltar</a>-->
-<!--</div>-->
 {% endblock %}

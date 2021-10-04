@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row">
+        {% for p in products%}
+        <div class="col-md-3 mt-3">
+            <div class="panel panel-default">
+                <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + p.image)}}" alt="{{p.name}}">
+                <div class="panel-body">
+                    <h5 class="text-cent">{{p.name}}</h5>
+                    <p class="text-center">Preço: R$ {{p.price}}</p>
+                </div>
+                <div class="panel-footer">
+                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

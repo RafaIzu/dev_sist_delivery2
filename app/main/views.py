@@ -4,14 +4,15 @@ from flask_login import login_required, current_user
 from app import db
 from . import main
 from .forms import EditProfileAdminForm
-from ..models import User, Role
+from ..models import User, Role, Product
 from ..decorators import admin_required
 
 
 @main.route('/')
 def index():
+    products = Product.query.all()
     return render_template('index.html', name=session.get('name'),
-                           known=session.get('known', False))
+                           known=session.get('known', False), products=products)
 
 
 @main.route('/user/<username>')

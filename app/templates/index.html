@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 
 {% block page_content %}
-<h1>Cadastro de Cliente e produto</h1>
+<h1>Loja de Jogos Acme</h1>
 <h1>Olá,
     {% if current_user.is_authenticated %}
         {{current_user.username}}
@@ -15,6 +15,9 @@
 <p>Que bom ve-lo de novo!</p>
 {% endif %}
 </div>
+
+{% include 'products/_catalog.html' %}
+
 {% endblock %}
 
 

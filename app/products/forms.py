@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
-from wtforms import StringField, SubmitField, SelectField, FloatField, TextAreaField, IntegerField
+from wtforms import StringField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length
 from wtforms import ValidationError
 from ..models import Brand, Theme, Category
@@ -10,7 +10,7 @@ class AddProduct(FlaskForm):
     name = StringField("Nome", validators=[DataRequired(), Length(1, 64)])
     price = StringField("Preço", validators=[DataRequired()])
     description = TextAreaField("Descrição", validators=[DataRequired()])
-    players = IntegerField("Jogadores", validators=[DataRequired()])
+    players = StringField("Jogadores", validators=[DataRequired()])
     age = StringField("Idade", validators=[DataRequired(), Length(1, 15)])
     brand = SelectField('Marca', coerce=int)
     theme = SelectField('Tema', coerce=int)
@@ -32,7 +32,7 @@ class EditProduct(FlaskForm):
     name = StringField("Nome", validators=[DataRequired(), Length(1, 64)])
     price = StringField("Preço", validators=[DataRequired()])
     description = TextAreaField("Descrição", validators=[DataRequired()])
-    players = IntegerField("Jogadores", validators=[DataRequired()])
+    players = StringField("Jogadores", validators=[DataRequired()])
     age = StringField("Idade", validators=[DataRequired(), Length(1, 15)])
     brand = SelectField('Marca', coerce=int)
     theme = SelectField('Tema', coerce=int)

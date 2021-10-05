@@ -4,16 +4,20 @@ from flask_login import login_required, current_user
 from app import db
 from . import main
 from .forms import EditProfileAdminForm
-from ..models import User, Role, Product
+from ..models import User, Role, Product, Brand, Category, Theme
 from ..decorators import admin_required
 
 
 @main.route('/')
 def index():
     products = Product.query.all()
+    brands = Brand.query.all()
+    themes = Theme.query.all()
+    categories = Category.query.all()
     return render_template('index.html', name=session.get('name'),
                            known=session.get('known', False),
-                           products=products)
+                           products=products, brands=brands, themes=themes,
+                           categories=categories)
 
 
 @main.route('/user/<username>')

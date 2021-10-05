@@ -135,4 +135,23 @@ button#addButtonProducts{
     margin-bottom: 10px;
 }
 
+div#catalogSelectionContainer{
+    margin-top: 30px;
+    background-color: #F0F0F0;
+    height: 80px;
+    width: 800px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+}
+
+.selectionCatalog{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+}
+
+
 

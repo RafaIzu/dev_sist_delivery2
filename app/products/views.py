@@ -30,7 +30,6 @@ def add_product():
     if form.validate_on_submit():
         image = photos.save(request.files.get('image'),
                             name=secrets.token_hex(10) + ".")
-        print(">>>", image)
         product = Product(name=form.name.data,
                           price=float(form.price.data.replace(",", ".")),
                           description=form.description.data,
@@ -55,7 +54,6 @@ def edit_product(id):
     form = EditProduct()
     if form.validate_on_submit():
         image = request.files.get('image')
-        print(">>> ", image.filename)
         product.name = form.name.data
         product.price = float(form.price.data.replace(",", "."))
         product.description = form.description.data

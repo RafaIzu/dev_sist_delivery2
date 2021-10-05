@@ -1,0 +1,45 @@
+<div id="catalogSelectionContainer" class="container">
+        <div class="selectionCatalog" role="group">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="brandSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Marcas
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="brands">
+            {% for b in brands %}
+            <li><a href="#">{{b.name}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="themeSelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Temas
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="themes">
+            {% for t in themes %}
+            <li><a href="#">{{t.name}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="categorySelection" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categoria
+            <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="category">
+            {% for c in categories %}
+            <li><a href="#">{{c.name}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search" id="txtSearch"/>
+            <div class="input-group-btn">
+              <button class="btn btn-primary" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </div>
+          </div>
+    </div>
+</div>

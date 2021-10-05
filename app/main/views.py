@@ -12,7 +12,8 @@ from ..decorators import admin_required
 def index():
     products = Product.query.all()
     return render_template('index.html', name=session.get('name'),
-                           known=session.get('known', False), products=products)
+                           known=session.get('known', False),
+                           products=products)
 
 
 @main.route('/user/<username>')

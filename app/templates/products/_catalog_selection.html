@@ -7,7 +7,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="brands">
             {% for b in brands %}
-            <li><a href="#">{{b.name}}</a></li>
+            <li><a href="{{url_for('main.get_brand', id = b.id)}}">{{b.name}}</a></li>
             {% endfor %}
             </ul>
         </div>

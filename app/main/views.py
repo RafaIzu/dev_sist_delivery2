@@ -11,7 +11,8 @@ from ..decorators import admin_required
 @main.route('/')
 def index():
     products = Product.query.all()
-    brands = Brand.query.all()
+    # brands = Brand.query.all()
+    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
     themes = Theme.query.all()
     categories = Category.query.all()
     return render_template('index.html', name=session.get('name'),
@@ -22,7 +23,9 @@ def index():
 @main.route('/filter_brand/<int:id>')
 def get_brand(id):
     product_brands = Product.query.filter_by(brand_id=id)
-    return render_template('index.html', product_brands=product_brands)
+    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
+    return render_template('index.html', product_brands=product_brands,
+                           brands=brands)
 
 
 @main.route('/user/<username>')

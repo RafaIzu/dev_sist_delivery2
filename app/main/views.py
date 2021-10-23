@@ -6,6 +6,7 @@ from . import main
 from .forms import EditProfileAdminForm
 from ..models import User, Role, Product, Brand, Category, Theme
 from ..decorators import admin_required
+from ..geoloc import Geolocalization
 
 
 @main.route('/')
@@ -31,7 +32,26 @@ def get_brand(id):
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user/user.html', user=user)
+    distance = 100000
+    is_server_ok = 0 # se 0, eh falso
+    geoloc = Geolocalization()
+    lon, lat = geoloc.gimmie_loc(address=user.destiny.address,
+                                 number=user.destiny.number,
+                                 neighborhood=user.destiny.neighborhood,
+                                 city=user.destiny.city,
+                                 state=user.destiny.state)
+    if lat == 404:
+        print("Nominatim server error. Don't blame me...")
+        lat, lon = (-23.5710819, -46.649922) # seria as cordenadas da loja.
+    else:
+        is_server_ok = 1
+        print("Nominatim server is cool!")
+        distance = geoloc.calculate_distance(lat, lon)
+    print("my distance is")
+    deliverable = distance < 20
+    return render_template('user/user.html', user=user, latitude=lat,
+                           longitude=lon, isdeliverable=deliverable,
+                           server_status=is_server_ok)
 
 
 @main.route('/user/edit-profile', methods=['GET', 'POST'])

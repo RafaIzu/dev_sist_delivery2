@@ -153,5 +153,7 @@ div#catalogSelectionContainer{
     padding-bottom: 30px;
 }
 
-
-
+#mapid{
+    height: 500px;
+    width: 500px;
+}

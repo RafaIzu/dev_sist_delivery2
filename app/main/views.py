@@ -28,20 +28,22 @@ def index():
 @main.route('/filter_brand/<int:id>')
 def get_brand(id):
     product_brands = Product.query.filter_by(brand_id=id)
-    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
-    themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
     categories = Category.query.join(Product,
-                                     (Category.id == Product.id)).all()
+                                     (Category.id == Product.category_id)).all()
+    print(Brand.query.join(Product, (Brand.id == Product.brand_id)).all())
     return render_template('index.html', product_brands=product_brands,
                            brands=brands, themes=themes, categories=categories)
 
 @main.route('/filter_theme/<int:id>')
 def get_theme(id):
     product_themes = Product.query.filter_by(theme_id=id)
-    themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
-    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
+    themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product,
-                                     (Category.id == Product.id)).all()
+                                     (Category.id == Product.category_id)).all()
+    print(themes)
     return render_template('index.html', product_themes=product_themes,
                            themes=themes, brands=brands, categories=categories)
 
@@ -49,9 +51,10 @@ def get_theme(id):
 def get_category(id):
     product_categories = Product.query.filter_by(category_id=id)
     categories = Category.query.join(Product,
-                                     (Category.id == Product.id)).all()
-    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
-    themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
+                                     (Category.id == Product.category_id)).all()
+    brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
+    themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
+    print(categories)
     return render_template('index.html', product_categories=product_categories,
                            categories=categories, brands=brands, themes=themes)
 

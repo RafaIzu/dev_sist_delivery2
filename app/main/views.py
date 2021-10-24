@@ -11,10 +11,8 @@ from ..geoloc import Geolocalization
 
 @main.route('/')
 def index():
-    products = Product.query.all()
-    # brands = Brand.query.all()
-    # categories = Category.query.all()
-    # themes = Theme.query.all()
+    page = request.args.get('page', 1, type=int)
+    products = Product.query.paginate(page=page, per_page=4)
     brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
     categories = Category.query.join(Product,
@@ -27,6 +25,10 @@ def index():
 
 @main.route('/filter_brand/<int:id>')
 def get_brand(id):
+    page = request.args.get('page', 1, type=int)
+    get_bran = Brand.query.filter_by(id=id).first_or_404()
+    # product_brands = Product.query.filter_by(brand=get_bran).paginate(
+    #     page=page, per_page=4)
     product_brands = Product.query.filter_by(brand_id=id)
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()

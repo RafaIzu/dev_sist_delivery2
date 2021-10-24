@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         {% if product_brands %}
-        {% for b in product_brands%}
+        {% for b in product_brands %}
         <div class="col-md-3 mt-3">
             <div class="panel panel-default">
                 <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + b.image) }}" alt="{{ b.name }}">
@@ -16,6 +16,8 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="row">
         {% elif product_categories %}
         {% for c in product_categories %}
         <div class="col-md-3 mt-3">
@@ -32,6 +34,8 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="row">
         {% elif product_themes %}
         {% for t in product_themes %}
         <div class="col-md-3 mt-3">
@@ -48,8 +52,10 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="row">
         {% else %}
-        {% for p in products%}
+        {% for p in products.items %}
         <div class="col-md-3 mt-3">
             <div class="panel panel-default">
                 <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + p.image)}}" alt="{{p.name}}">
@@ -64,6 +70,29 @@
             </div>
         </div>
         {% endfor %}
-        {% endif %}
     </div>
+    <div class="row">
+        <div class="col text-center ">
+            {% if products.has_prev %}
+            <a href="{{url_for('main.index', page=products.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
+            {% endif %}
+            {% for page_num in products.iter_pages() %}
+            {% if page_num %}
+            {% if products.page == page_num %}
+            <a href="{{url_for('main.index', page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
+            <script>console.log('banana')</script>
+            {% else %}
+            <a href="{{url_for('main.index', page=page_num)}}" class="btn btn-outline-primary btn-sm mt-3">{{ page_num }}</a>
+            <script>console.log('morango')</script>
+            {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}
+            {% if products.has_next %}
+            <a href="{{url_for('main.index', page=products.next_num)}}" class="btn btn-outline-primary btn-sm mt-3">Próximo</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 </div>

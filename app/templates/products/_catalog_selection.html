@@ -7,7 +7,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="brands">
             {% for b in brands %}
-            <li><a href="{{url_for('main.get_brand', id = b.id)}}">{{ b.name }}</a></li>
+            <li><a href="{{ url_for('main.get_brand', id = b.id) }}">{{ b.name }}</a></li>
             {% endfor %}
             </ul>
         </div>
@@ -18,7 +18,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="themes">
             {% for t in themes %}
-            <li><a href="#">{{ t.name }}</a></li>
+            <li><a href="{{ url_for('main.get_brand', id = t.id) }}">{{ t.name }}</a></li>
             {% endfor %}
             </ul>
         </div>
@@ -29,7 +29,7 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="category">
             {% for c in categories %}
-            <li><a href="{{url_for('main.get_category', id = c.id)}}">{{ c.name }}</a></li>
+            <li><a href="{{ url_for('main.get_category', id = c.id) }}">{{ c.name }}</a></li>
             {% endfor %}
             </ul>
         </div>

@@ -4,10 +4,10 @@
         {% for b in product_brands%}
         <div class="col-md-3 mt-3">
             <div class="panel panel-default">
-                <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + b.image)}}" alt="{{b.name}}">
+                <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + b.image) }}" alt="{{ b.name }}">
                 <div class="panel-body">
-                    <h5 class="text-cent">{{b.name}}</h5>
-                    <p class="text-center">Preço: R$ {{b.price}}</p>
+                    <h5 class="text-cent">{{ b.name }}</h5>
+                    <p class="text-center">Preço: R$ {{ b.price }}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="#" class="float-left btn btn-sm btn-primary">details</a>
@@ -20,10 +20,26 @@
         {% for c in product_categories %}
         <div class="col-md-3 mt-3">
             <div class="panel panel-default">
-                <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + c.image)}}" alt="{{ c.name }}">
+                <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + c.image) }}" alt="{{ c.name }}">
                 <div class="panel-body">
                     <h5 class="text-cent">{{c.name}}</h5>
                     <p class="text-center">Preço: R$ {{c.price}}</p>
+                </div>
+                <div class="panel-footer">
+                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% elif product_themes %}
+        {% for t in product_themes %}
+        <div class="col-md-3 mt-3">
+            <div class="panel panel-default">
+                <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + t.image)}}" alt="{{ t.name }}">
+                <div class="panel-body">
+                    <h5 class="text-cent">{{t.name}}</h5>
+                    <p class="text-center">Preço: R$ {{t.price}}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="#" class="float-left btn btn-sm btn-primary">details</a>

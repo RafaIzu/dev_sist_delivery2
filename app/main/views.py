@@ -26,17 +26,27 @@ def index():
 @main.route('/filter_brand/<int:id>')
 def get_brand(id):
     page = request.args.get('page', 1, type=int)
-    get_bran = Brand.query.filter_by(id=id).first_or_404()
-    # product_brands = Product.query.filter_by(brand=get_bran).paginate(
-    #     page=page, per_page=4)
-    product_brands = Product.query.filter_by(brand_id=id)
+    get_brand_id = Brand.query.filter_by(id=id).first_or_404()
+    try:
+        product_brands = Product.query.filter_by(brand_id=id).paginate(
+            page=page, per_page=4)
+        print(product_brands.items)
+    except:
+        print("Nope...")
+    # infelizmente não vai ser possível
+    # colocar paginação para marcar, categorias e temas filtrados.
+    # teria que modificar o models.py colocando um backref para produtos
+    # mas para isso teria que derrubar o banco de dados e fazer tooodo o
+    # passo a passo com risco ainda de dar pau.
+    # product_brands = Product.query.filter_by(brand_id=id)
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
     categories = Category.query.join(Product,
                                      (Category.id == Product.category_id)).all()
     print(Brand.query.join(Product, (Brand.id == Product.brand_id)).all())
     return render_template('index.html', product_brands=product_brands,
-                           brands=brands, themes=themes, categories=categories)
+                           brands=brands, themes=themes, categories=categories,
+                           get_brand_id=get_brand_id)
 
 @main.route('/filter_theme/<int:id>')
 def get_theme(id):

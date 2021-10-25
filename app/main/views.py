@@ -12,7 +12,7 @@ from ..geoloc import Geolocalization
 @main.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.paginate(page=page, per_page=6)
+    products = Product.query.order_by(Product.id.desc()).paginate(page=page, per_page=6)
     brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
     categories = Category.query.join(Product,

@@ -22,7 +22,8 @@
             {% if product_brands.has_prev %}
             <a href="{{url_for('main.get_brand', id=get_brand_id.id, page=product_brands.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
             {% endif %}
-            {% for page_num in product_brands.iter_pages() %}
+            {% if product_brands.total > 4 %}
+            {% for page_num in product_brands.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
             {% if product_brands.page == page_num %}
             <a href="{{url_for('main.get_brand', id=get_brand_id.id, page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
@@ -33,6 +34,7 @@
             ...
             {% endif %}
             {% endfor %}
+            {% endif %}
             {% if product_brands.has_next %}
             <a href="{{url_for('main.get_brand', id=get_brand_id.id, page=product_brands.next_num)}}" class="btn btn-outline-primary btn-sm mt-3">Próximo</a>
             {% endif %}
@@ -61,7 +63,8 @@
             {% if product_categories.has_prev %}
             <a href="{{url_for('main.get_category', id=get_category_id.id, page=product_categories.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
             {% endif %}
-            {% for page_num in product_categories.iter_pages() %}
+            {% if product_categories.total > 4 %}
+            {% for page_num in product_categories.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
             {% if product_categories.page == page_num %}
             <a href="{{url_for('main.get_category', id=get_category_id.id, page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
@@ -72,6 +75,7 @@
             ...
             {% endif %}
             {% endfor %}
+            {% endif %}
             {% if product_categories.has_next %}
             <a href="{{url_for('main.get_category', id=get_category_id.id, page=product_categories.next_num)}}" class="btn btn-outline-primary btn-sm mt-3">Próximo</a>
             {% endif %}
@@ -100,7 +104,8 @@
             {% if product_themes.has_prev %}
             <a href="{{url_for('main.get_theme', id=get_theme_id.id, page=product_themes.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
             {% endif %}
-            {% for page_num in product_themes.iter_pages() %}
+            {% if product_themes.total > 4 %}
+            {% for page_num in product_themes.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
             {% if product_themes.page == page_num %}
             <a href="{{url_for('main.get_theme', id=get_theme_id.id, page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
@@ -111,6 +116,7 @@
             ...
             {% endif %}
             {% endfor %}
+            {% endif %}
             {% if product_themes.has_next %}
             <a href="{{url_for('main.get_theme', id=get_theme_id.id, page=product_themes.next_num)}}" class="btn btn-outline-primary btn-sm mt-3">Próximo</a>
             {% endif %}
@@ -139,7 +145,7 @@
             {% if products.has_prev %}
             <a href="{{url_for('main.index', page=products.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
             {% endif %}
-            {% for page_num in products.iter_pages() %}
+            {% for page_num in products.iter_pages(left_edge=1, right_edge=2, left_current=1, right_current=2) %}
             {% if page_num %}
             {% if products.page == page_num %}
             <a href="{{url_for('main.index', page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>

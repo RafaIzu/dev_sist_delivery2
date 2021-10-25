@@ -40,7 +40,7 @@
     </div>
     <div class="row">
         {% elif product_categories %}
-        {% for c in product_categories %}
+        {% for c in product_categories.items %}
         <div class="col-md-3 mt-3">
             <div class="panel panel-default">
                 <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + c.image) }}" alt="{{ c.name }}">
@@ -55,6 +55,27 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col text-center ">
+            {% if product_categories.has_prev %}
+            <a href="{{url_for('main.get_category', id=get_category_id.id, page=product_categories.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
+            {% endif %}
+            {% for page_num in product_categories.iter_pages() %}
+            {% if page_num %}
+            {% if product_categories.page == page_num %}
+            <a href="{{url_for('main.get_category', id=get_category_id.id, page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
+            {% else %}
+            <a href="{{url_for('main.get_category', id=get_category_id.id, page=page_num)}}" class="btn btn-outline-primary btn-sm mt-3">{{ page_num }}</a>
+            {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+            {% endfor %}
+            {% if product_categories.has_next %}
+            <a href="{{url_for('main.get_category', id=get_category_id.id, page=product_categories.next_num)}}" class="btn btn-outline-primary btn-sm mt-3">Próximo</a>
+            {% endif %}
+        </div>
     </div>
     <div class="row">
         {% elif product_themes %}
@@ -74,7 +95,7 @@
         </div>
         {% endfor %}
     </div>
-        <div class="row">
+    <div class="row">
         <div class="col text-center ">
             {% if product_themes.has_prev %}
             <a href="{{url_for('main.get_theme', id=get_theme_id.id, page=product_themes.prev_num)}}" class="btn btn-outline-primary btn-sm mt-3">Anterior</a>
@@ -106,8 +127,8 @@
                     <p class="text-center">Preço: R$ {{p.price}}</p>
                 </div>
                 <div class="panel-footer">
-                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                    <a href="#" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
                 </div>
             </div>
         </div>

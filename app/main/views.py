@@ -56,14 +56,19 @@ def get_theme(id):
 
 @main.route('/filter_categories/<int:id>')
 def get_category(id):
-    product_categories = Product.query.filter_by(category_id=id)
+    page = request.args.get('page', 1, type=int)
+    get_category_id = Category.query.filter_by(id=id).first_or_404()
+    # product_categories = Product.query.filter_by(category_id=id)
+    product_categories = Product.query.filter_by(category_id=id).paginate(
+        page=page, per_page=4)
     categories = Category.query.join(Product,
                                      (Category.id == Product.category_id)).all()
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
     print(categories)
     return render_template('index.html', product_categories=product_categories,
-                           categories=categories, brands=brands, themes=themes)
+                           categories=categories, brands=brands, themes=themes,
+                           get_category_id=get_category_id)
 
 @main.route('/user/<username>')
 def user(username):

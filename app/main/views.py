@@ -12,7 +12,7 @@ from ..geoloc import Geolocalization
 @main.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.paginate(page=page, per_page=4)
+    products = Product.query.paginate(page=page, per_page=6)
     brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
     categories = Category.query.join(Product,
@@ -27,37 +27,32 @@ def index():
 def get_brand(id):
     page = request.args.get('page', 1, type=int)
     get_brand_id = Brand.query.filter_by(id=id).first_or_404()
-    try:
-        product_brands = Product.query.filter_by(brand_id=id).paginate(
-            page=page, per_page=4)
-        print(product_brands.items)
-    except:
-        print("Nope...")
-    # infelizmente não vai ser possível
-    # colocar paginação para marcar, categorias e temas filtrados.
-    # teria que modificar o models.py colocando um backref para produtos
-    # mas para isso teria que derrubar o banco de dados e fazer tooodo o
-    # passo a passo com risco ainda de dar pau.
     # product_brands = Product.query.filter_by(brand_id=id)
+    product_brands = Product.query.filter_by(brand_id=id).paginate(
+            page=page, per_page=4)
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
     categories = Category.query.join(Product,
-                                     (Category.id == Product.category_id)).all()
-    print(Brand.query.join(Product, (Brand.id == Product.brand_id)).all())
+                                     (Category.id == Product.category_id)
+                                     ).all()
     return render_template('index.html', product_brands=product_brands,
                            brands=brands, themes=themes, categories=categories,
                            get_brand_id=get_brand_id)
 
 @main.route('/filter_theme/<int:id>')
 def get_theme(id):
-    product_themes = Product.query.filter_by(theme_id=id)
+    page = request.args.get('page', 1, type=int)
+    get_theme_id = Theme.query.filter_by(id=id).first_or_404()
+    # product_themes = Product.query.filter_by(theme_id=id)
+    product_themes = Product.query.filter_by(theme_id=id).paginate(
+        page=page, per_page=4)
     themes = Theme.query.join(Product, (Theme.id == Product.theme_id)).all()
     brands = Brand.query.join(Product, (Brand.id == Product.brand_id)).all()
     categories = Category.query.join(Product,
                                      (Category.id == Product.category_id)).all()
-    print(themes)
     return render_template('index.html', product_themes=product_themes,
-                           themes=themes, brands=brands, categories=categories)
+                           themes=themes, brands=brands, categories=categories,
+                           get_theme_id=get_theme_id)
 
 @main.route('/filter_categories/<int:id>')
 def get_category(id):

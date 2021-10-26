@@ -7,7 +7,7 @@
                 <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + b.image) }}" alt="{{ b.name }}">
                 <div class="panel-body">
                     <h5 class="text-cent">{{ b.name }}</h5>
-                    <p class="text-center">Preço: R$ {{ b.price }}</p>
+                    <p class="text-center">Preço: R$ {{ (("%.2f"|format(b.price))|string()).replace(".", ",") }}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=b.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
@@ -48,7 +48,7 @@
                 <img class="cardImgCatalog" src="{{ url_for('static', filename='images/' + c.image) }}" alt="{{ c.name }}">
                 <div class="panel-body">
                     <h5 class="text-cent">{{c.name}}</h5>
-                    <p class="text-center">Preço: R$ {{c.price}}</p>
+                    <p class="text-center">Preço: R$ {{ (("%.2f"|format(c.price))|string()).replace(".", ",") }}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=c.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
@@ -89,7 +89,7 @@
                 <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + t.image)}}" alt="{{ t.name }}">
                 <div class="panel-body">
                     <h5 class="text-cent">{{t.name}}</h5>
-                    <p class="text-center">Preço: R$ {{t.price}}</p>
+                    <p class="text-center">Preço: R$ {{ (("%.2f"|format(t.price))|string()).replace(".", ",") }}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=t.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
@@ -130,7 +130,7 @@
                 <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + p.image)}}" alt="{{p.name}}">
                 <div class="panel-body">
                     <h5 class="text-cent">{{p.name}}</h5>
-                    <p class="text-center">Preço: R$ {{p.price}}</p>
+                    <p class="text-center">Preço: R$ {{ (("%.2f"|format(p.price))|string()).replace(".", ",") }}</p>
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=p.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
@@ -149,10 +149,8 @@
             {% if page_num %}
             {% if products.page == page_num %}
             <a href="{{url_for('main.index', page=page_num)}}" class="btn btn-primary btn-sm mt-3">{{ page_num }}</a>
-            <script>console.log('banana')</script>
             {% else %}
             <a href="{{url_for('main.index', page=page_num)}}" class="btn btn-outline-primary btn-sm mt-3">{{ page_num }}</a>
-            <script>console.log('morango')</script>
             {% endif %}
             {% else %}
             ...

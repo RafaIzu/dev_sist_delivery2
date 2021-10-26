@@ -3,7 +3,7 @@
 
 {% block page_content %}
 <div class="container">
-    <h1>Loja de Jogos Acme</h1>
+    <h1>Bem-vindo a loja de jogos Acme</h1>
     <h1>Olá,
         {% if current_user.is_authenticated %}
             {{current_user.username}}
@@ -11,7 +11,7 @@
             Amigo!
         {% endif %}!</h1>
     {% if not known %}
-    <p>Bem-vindo!</p>
+    <p>Somos especilistas em jogos de tabuleiro e cartas!</p>
     {% else %}
     <p>Que bom ve-lo de novo!</p>
     {% endif %}

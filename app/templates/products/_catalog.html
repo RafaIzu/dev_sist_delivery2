@@ -10,8 +10,8 @@
                     <p class="text-center">Preço: R$ {{ b.price }}</p>
                 </div>
                 <div class="panel-footer">
-                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                    <a href="{{ url_for('main.single_page', id=b.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
                 </div>
             </div>
         </div>
@@ -51,8 +51,8 @@
                     <p class="text-center">Preço: R$ {{c.price}}</p>
                 </div>
                 <div class="panel-footer">
-                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                    <a href="{{ url_for('main.single_page', id=c.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
                 </div>
             </div>
         </div>
@@ -92,8 +92,8 @@
                     <p class="text-center">Preço: R$ {{t.price}}</p>
                 </div>
                 <div class="panel-footer">
-                    <a href="#" class="float-left btn btn-sm btn-primary">details</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Add to cart</a>
+                    <a href="{{ url_for('main.single_page', id=t.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                     <p class="text-center">Preço: R$ {{p.price}}</p>
                 </div>
                 <div class="panel-footer">
-                    <a href="#" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                    <a href="{{ url_for('main.single_page', id=p.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
                     <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
                 </div>
             </div>

@@ -17,11 +17,16 @@ def index():
     themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
     categories = Category.query.join(Product,
                                      (Category.id == Product.id)).all()
-
     return render_template('index.html', name=session.get('name'),
                            known=session.get('known', False),
                            products=products, brands=brands, themes=themes,
                            categories=categories)
+
+@main.route('/product/<int:id>')
+def single_page(id):
+    product = Product.query.get_or_404(id)
+    return render_template('products/single_page.html', product=product)
+
 
 @main.route('/filter_brand/<int:id>')
 def get_brand(id):

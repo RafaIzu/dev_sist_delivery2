@@ -153,6 +153,24 @@ div#catalogSelectionContainer{
     padding-bottom: 30px;
 }
 
+#product_img_show{
+    width: 400px;
+    height: 400px;
+}
+
+.product_description_options>a{
+    margin-top: 20px;
+}
+
+#product_details{
+    margin-top: 60px;
+    width: 400px;
+}
+
+/* #back_button_product_details{
+    margin-top: 220px;
+} */
+
 #mapid{
     height: 500px;
     width: 500px;

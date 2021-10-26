@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Produto{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6" id="b_image">
+              <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="product.name" id="product_img_show">
+        </div>
+        <div class="col-md-6" id="product_details">
+            <h4>Nome do produto: {{ product.name }}</h4>
+            <hr>
+            <p>Preço: R$ {{ product.price }}</p>
+            <p><b>Descrição do produto:</b></p>
+            <p class="product_description">{{ product.description }}</p>
+            <div class="product_description_options">
+                <a href="#" class="btn btn-warning">Adicionar ao carrinho</a>
+                <a href="/" class="btn btn-info" id="back_button_product_details">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

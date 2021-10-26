@@ -25,7 +25,9 @@ def index():
 @main.route('/product/<int:id>')
 def single_page(id):
     product = Product.query.get_or_404(id)
-    return render_template('products/single_page.html', product=product)
+    price = str(format(product.price, ".2f")).replace(".", ",")
+    return render_template('products/single_page.html',
+                           product=product, price=price)
 
 
 @main.route('/filter_brand/<int:id>')

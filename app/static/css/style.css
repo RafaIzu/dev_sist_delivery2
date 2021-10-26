@@ -118,6 +118,10 @@
     margin-top: 10px;
 }
 
+.panel-body>p{
+    margin-left: 100px;
+}
+
 .editProductImg{
     width: 200px;
     height: 150px;
@@ -158,8 +162,24 @@ div#catalogSelectionContainer{
     height: 400px;
 }
 
+#product_details>p:nth-child(5){
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#product_details>p:nth-child(3){
+    font-size: 30pt;
+    font-weight: bold;
+
+}
+
 .product_description_options>a{
     margin-top: 20px;
+}
+
+.product_description_options>a:nth-child(2){
+    margin-left: 60px;
 }
 
 #product_details{

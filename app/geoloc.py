@@ -13,10 +13,10 @@ class Geolocalization():
 
     def __format_address_to_url(self, address, number, city, neighborhood,
                                 state):
-        return  {"address": (number + "+" +address).replace(" ", "+"),
-            "city": city.replace(" ", "+"),
-            "neighborhood": neighborhood.replace(" ", "+"),
-            "state": state.replace(" ", "+")}
+        return {"address": (number + "+" +address).replace(" ", "+"),
+                "city": city.replace(" ", "+"),
+                "neighborhood": neighborhood.replace(" ", "+"),
+                "state": state.replace(" ", "+")}
 
     def gimmie_loc(self, address, number, city, neighborhood, state):
         formated_address = self.__format_address_to_url(address, number,
@@ -37,6 +37,7 @@ class Geolocalization():
         print(response.status_code)
         if response.status_code == 200:
             response_json = response.json()
+            print(response_json)
             return response_json["features"][0]["geometry"]["coordinates"]
         else:
             return 404, 404

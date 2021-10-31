@@ -14,7 +14,12 @@
             <p><b>Descrição do produto:</b></p>
             <p class="product_description">{{ product.description }}</p>
             <div class="product_description_options">
-                <a href="#" class="btn btn-warning">Adicionar ao carrinho</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <label for="quantity">Quantidade:</label>
+                    <input type="number" name="quantity" id="" value="1" min="1" max="20">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                </form>
                 <a href="/" class="btn btn-info" id="back_button_product_details">Voltar</a>
             </div>
         </div>

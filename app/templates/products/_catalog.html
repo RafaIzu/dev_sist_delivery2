@@ -11,7 +11,11 @@
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=b.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ b.id }}">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                    <input type="hidden" name="quantity" id="" value="1" min="1" max="20">
+                </form>
                 </div>
             </div>
         </div>
@@ -52,7 +56,11 @@
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=c.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ c.id }}">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                    <input type="hidden" name="quantity" id="" value="1" min="1" max="20">
+                </form>
                 </div>
             </div>
         </div>
@@ -93,7 +101,11 @@
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=t.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ t.id }}">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                    <input type="hidden" name="quantity" id="" value="1" min="1" max="20">
+                </form>
                 </div>
             </div>
         </div>
@@ -134,7 +146,11 @@
                 </div>
                 <div class="panel-footer">
                     <a href="{{ url_for('main.single_page', id=p.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
-                    <a href="#" class="float-left btn btn-sm btn-warning">Adicionar no carrinho</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ p.id }}">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                    <input type="hidden" name="quantity" id="" value="1" min="1" max="20">
+                </form>
                 </div>
             </div>
         </div>

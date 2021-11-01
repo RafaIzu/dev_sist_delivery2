@@ -36,3 +36,21 @@ def add_cart():
     finally:
         return redirect(request.referrer)
 
+
+@cart.route('/carts')
+def get_cart():
+    if 'shopping_cart' not in session:
+        return redirect(request.referrer)
+    sum_item_unit = 0
+    subtotal = 0
+    freight = 1.2 * 20
+    for key, product in session['shopping_cart'].items():
+        subtotal += float(product['price'] * int(product['quantity']))
+        grandtotal = subtotal + freight
+        sum_item_unit += int(product['quantity'])
+    return render_template('products/carts.html',
+                           freight=freight,
+                           subtotal=subtotal,
+                           grandtotal=grandtotal,
+                           sum_item_unit=sum_item_unit)
+

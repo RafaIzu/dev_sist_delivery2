@@ -35,7 +35,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1">Cart ({{ session['shopping_cart']| length}})</a>
+                        <a class="nav-link disabled" href="{{ url_for('cart.get_cart') }}" tabindex="-1"> Carrinho ({{ session['shopping_cart']| length}})</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="dropdown">

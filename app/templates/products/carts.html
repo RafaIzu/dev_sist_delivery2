@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    <div class="row">
+        <table class="table">
+            <thead>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Subtotal</th>
+                <th>Atualizar</th>
+                <th>Remover</th>
+            </thead>
+        <tbody>
+            {% for key, product in session['shopping_cart'].items() %}
+            <tr>
+                <td><img id="cart_img_product" src="{{ url_for('static', filename='images/' + product.image) }}" alt="product.name"></td>
+                <td>{{ product.name }}</td>
+                <form action="">
+                    <td>R$ {{ (("%.2f"|format(product.price))|string()).replace(".", ",")}}</td>
+                    <td> X {{ product.quantity }}</td>
+                    {% set subtotal = product.quantity|int * product.price|float %}
+                    <td>R$ {{ (("%.2f"|format(subtotal))|string()).replace(".", ",")  }}</td>
+                    <td><a href="#">Atualizar</a></td>
+                </form>
+                <td><a href="#">Remover</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td><h5>Subtotal: R$ {{ subtotal }}</h5></td>
+                <td><h5>Total Itens: {{ sum_item_unit }} unidades</h5></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+        <div class="container" id="cart_summary">
+            <h5>Frete: R$ {{ freight }}</h5>
+            <td><h5>Total: R$ {{ grandtotal }}</h5></td>
+            <button class="btn btn-success"><a href="#">Continue Comprando</a></button>
+        </div>
+    </div>
+{% endblock %}

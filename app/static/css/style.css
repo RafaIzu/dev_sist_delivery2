@@ -195,3 +195,8 @@ div#catalogSelectionContainer{
     height: 500px;
     width: 500px;
 }
+
+#cart_img_product{
+    width: 75px;
+    height: 60px;
+}

@@ -17,12 +17,12 @@
             <tr>
                 <td><img id="cart_img_product" src="{{ url_for('static', filename='images/' + product.image) }}" alt="product.name"></td>
                 <td>{{ product.name }}</td>
-                <form action="">
+                <form action="{{ url_for('cart.update_cart', code=key) }}" method="post">
                     <td>R$ {{ (("%.2f"|format(product.price))|string()).replace(".", ",")}}</td>
-                    <td> X {{ product.quantity }}</td>
+                    <td> <input type="number" name="quantity" min="1" max="10" value="{{ product.quantity }}"></td>
                     {% set subtotal = product.quantity|int * product.price|float %}
                     <td>R$ {{ (("%.2f"|format(subtotal))|string()).replace(".", ",")  }}</td>
-                    <td><a href="#">Atualizar</a></td>
+                    <td><button type="submit" class="btn btn-sm btn-info">Atualizar</button></td>
                 </form>
                 <td><a href="#">Remover</a></td>
             </tr>

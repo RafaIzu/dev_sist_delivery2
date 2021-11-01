@@ -54,3 +54,33 @@ def get_cart():
                            grandtotal=grandtotal,
                            sum_item_unit=sum_item_unit)
 
+
+
+@cart.route('/updatecart/<int:code>', methods=['POST'])
+def update_cart(code):
+    print("banana split")
+    if 'shopping_cart' not in session and len(session['shopping_cart']) <= 0:
+        return redirect(url_for('main.index'))
+    print('passou até aqui 1')
+    if request.method == "POST":
+        quantity = request.form.get('quantity')
+        print('passou até aqui 2')
+        try:
+            session.modified = True
+            for key, item in session['shopping_cart'].items():
+                if int(key) == code:
+                    item['quantity'] = quantity
+                    flash('Seu carrinho foi atualizado!')
+                    return redirect(url_for('cart.get_cart'))
+        except Exception as e:
+            print('Ferrou!')
+            print(e)
+            redirect(url_for('cart.get_cart'))
+
+@cart.route('/empty')
+def empty_cart():
+    try:
+        session.clear()
+        return redirect(url_for("main.index"))
+    except Exception as e:
+        print(e)

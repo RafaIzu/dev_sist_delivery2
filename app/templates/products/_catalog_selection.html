@@ -33,13 +33,13 @@
             {% endfor %}
             </ul>
         </div>
-        <div class="input-group">
-            <form id="search-bar" action=" {{ url_for('main.result') }}">
+        <div id="search-bar" class="input-group">
+            <form action=" {{ url_for('main.result') }}">
                 <input type="text" class="form-control" placeholder="Pesquisar" id="txtSearch" name="q"/>
                 <div class="input-group-btn">
                 <button class="btn btn-primary" type="submit">
-                <span class="glyphicon glyphicon-search"></span>
-              </button>
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
             </form>
 
             </div>

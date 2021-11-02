@@ -24,7 +24,7 @@
                     <td>R$ {{ (("%.2f"|format(subtotal))|string()).replace(".", ",")  }}</td>
                     <td><button type="submit" class="btn btn-sm btn-info">Atualizar</button></td>
                 </form>
-                <td><a href="#">Remover</a></td>
+                <td><a href="{{ url_for('cart.delete_item', id=key) }}" class="btn btn-sm btn-danger">Remover</a></td>
             </tr>
             {% endfor %}
             <tr>
@@ -41,7 +41,8 @@
         <div class="container" id="cart_summary">
             <h5>Frete: R$ {{ freight }}</h5>
             <td><h5>Total: R$ {{ grandtotal }}</h5></td>
-            <button class="btn btn-success"><a href="#">Continue Comprando</a></button>
+            <button class="btn btn-success"><a href="#">Pagar</a></button>
+            <button class="btn btn-danger"><a href=" {{url_for('cart.empty_cart')}} ">Limpar carrinho</a></button>
         </div>
     </div>
 {% endblock %}

@@ -14,7 +14,7 @@ def MagerDicts(dict1, dict2):
 def add_cart():
     try:
         product_id = request.form.get('product_id')
-        quantity = request.form.get('quantity')
+        quantity = int(request.form.get('quantity'))
         product = Product.query.filter_by(id=product_id).first()
         if product_id and quantity and request.method == "POST":
             Dict_items = {product_id:{'name': product.name,
@@ -24,6 +24,12 @@ def add_cart():
             if 'shopping_cart' in session:
                 print(session['shopping_cart'])
                 if product_id in session['shopping_cart']:
+                    for key, item in session['shopping_cart'].items():
+                        if int(key) == int(product_id):
+                            print('lu-li-li-lo-lo')
+                            session.modified = True
+                            print(item['quantity'])
+                            item['quantity'] += 1
                     print("This product is already in your cart!")
                 else:
                     session['shopping_cart'] = MagerDicts(session['shopping_cart'], Dict_items)
@@ -39,8 +45,9 @@ def add_cart():
 
 @cart.route('/carts')
 def get_cart():
-    if 'shopping_cart' not in session:
-        return redirect(request.referrer)
+    if 'shopping_cart' not in session or len(session['shopping_cart']) <= 0:
+        flash('Seu carrinho está vazio! Por favor, coloque um produto.')
+        return redirect(url_for('main.index'))
     sum_item_unit = 0
     subtotal = 0
     freight = 1.2 * 20
@@ -73,14 +80,30 @@ def update_cart(code):
                     flash('Seu carrinho foi atualizado!')
                     return redirect(url_for('cart.get_cart'))
         except Exception as e:
-            print('Ferrou!')
+            print('Damn it!')
             print(e)
             redirect(url_for('cart.get_cart'))
 
-@cart.route('/empty')
+
+@cart.route('/deleteitem/<int:id>')
+def delete_item(id):
+    if 'shopping_cart' not in session and len(session['shopping_cart']) <= 0:
+        return redirect(url_for('main.index'))
+    try:
+        session.modified = True
+        for key, item in session['shopping_cart'].items():
+            if int(key) == id:
+                session['shopping_cart'].pop(key, None)
+                return redirect(url_for('cart.get_cart'))
+
+    except Exception as e:
+        print(e)
+        return redirect(url_for('cart.get_cart'))
+
+@cart.route('/emptycart')
 def empty_cart():
     try:
-        session.clear()
+        session.pop('shopping_cart', None)
         return redirect(url_for("main.index"))
     except Exception as e:
         print(e)

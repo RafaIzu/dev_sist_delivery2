@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Pesquisa{% endblock %}
+
+{% block page_content %}
+{% include 'products/_catalog_selection.html' %}
+<div class="container">
+    <div class="row">
+        {% for p in products %}
+        <div class="col-md-3 mt-3">
+            <div class="panel panel-default">
+                <img class="cardImgCatalog" src="{{url_for('static', filename='images/' + p.image)}}" alt="{{p.name}}">
+                <div class="panel-body">
+                    <h5 class="text-cent">{{p.name}}</h5>
+                    <p class="text-center">Preço: R$ {{ (("%.2f"|format(p.price))|string()).replace(".", ",") }}</p>
+                </div>
+                <div class="panel-footer">
+                    <a href="{{ url_for('main.single_page', id=p.id) }}" class="float-left btn btn-sm btn-primary">Detalhes</a>
+                <form action="{{ url_for('cart.add_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ p.id }}">
+                    <button type="submit" class="btn btn-sm btn-warning"> Adicionar ao carrinho </button>
+                    <input type="hidden" name="quantity" id="" value="1" min="1" max="20">
+                </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% for product in products%}
+{{ product.name }}
+{% endfor %}

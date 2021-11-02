@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, session, request, redirect,\
     url_for, flash
 from flask_login import login_required, current_user
-from app import db
+from app import db, search
 from . import main
 from .forms import EditProfileAdminForm
 from ..models import User, Role, Product, Brand, Category, Theme
@@ -12,7 +12,8 @@ from ..geoloc import Geolocalization
 @main.route('/')
 def index():
     page = request.args.get('page', 1, type=int)
-    products = Product.query.order_by(Product.id.desc()).paginate(page=page, per_page=6)
+    products = Product.query.order_by(Product.id.desc()).paginate(page=page,
+                                                                  per_page=6)
     brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
     themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
     categories = Category.query.join(Product,
@@ -21,6 +22,21 @@ def index():
                            known=session.get('known', False),
                            products=products, brands=brands, themes=themes,
                            categories=categories)
+
+
+@main.route('/result')
+def result():
+    search_word = request.args.get('q')
+    products = Product.query.msearch(search_word,
+                                     fields=['name', 'description'], limit=3)
+    brands = Brand.query.join(Product, (Brand.id == Product.id)).all()
+    themes = Theme.query.join(Product, (Theme.id == Product.id)).all()
+    categories = Category.query.join(Product,
+                                     (Category.id == Product.id)).all()
+    return render_template('products/result.html', products=products,
+                           brands=brands, themes=themes,
+                           categories=categories)
+
 
 @main.route('/product/<int:id>')
 def single_page(id):

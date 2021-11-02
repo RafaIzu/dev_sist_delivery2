@@ -9,6 +9,7 @@ from . import db
 
 
 class Product(db.Model):
+    __searchable__ = ['name', 'description']
     __tablename__ = 'products'
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(150))

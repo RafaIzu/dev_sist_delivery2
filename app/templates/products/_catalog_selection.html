@@ -34,11 +34,14 @@
             </ul>
         </div>
         <div class="input-group">
-            <input type="text" class="form-control" placeholder="Pesquisar" id="txtSearch"/>
-            <div class="input-group-btn">
-              <button class="btn btn-primary" type="submit">
+            <form id="search-bar" action=" {{ url_for('main.result') }}">
+                <input type="text" class="form-control" placeholder="Pesquisar" id="txtSearch" name="q"/>
+                <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
                 <span class="glyphicon glyphicon-search"></span>
               </button>
+            </form>
+
             </div>
           </div>
     </div>

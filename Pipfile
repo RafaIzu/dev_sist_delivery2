@@ -32,6 +32,7 @@ SQLAlchemy = "==1.4.23"
 Werkzeug = "==2.0.1"
 twilio = "*"
 geopy = "*"
+flask-msearch = "*"
 
 [dev-packages]
 

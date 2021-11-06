@@ -42,16 +42,19 @@
     <div id="cart-summary" class="container" >
         
         <div class="cart-checkout">
-            <p>Frete: R$ {{ freight }}</p>
-            <p>Subtotal: R$ {{ subtotal }}</p>
+            {% if current_user.is_authenticated %}
+            <p>Frete: R$ {{ (("%.2f"|format(freight))|string()).replace(".", ",") }}</p>
+            {% else %}
+            <p>Cadastre-se para saber o valor do frete.</p>
+            {% endif %}
+            <p>Subtotal: R$ {{ (("%.2f"|format(subtotal))|string()).replace(".", ",") }}</p>
             <hr>
-            <p>Total: R$ {{ grandtotal }}</p>
+            <p>Total: R$ {{ (("%.2f"|format(grandtotal))|string()).replace(".", ",") }}</p>
             {% if current_user.is_authenticated %}
             <button class="btn btn-success"><a href="{{ url_for('cart.buy_product') }}">Pagar</a></button>
             {% else %}
             <button class="btn btn-success"><a href="{{ url_for('auth.login') }}">Pagar</a></button>
             {% endif %}
         </div>
-
     </div>
 {% endblock %}

@@ -34,7 +34,7 @@
                 <td><h5>Total Itens: {{ sum_item_unit }} unidades</h5></td>
                 <td></td>
                 <td></td>
-                <td><button class="btn btn-sm btn-danger"><a id="clear-cart-button" href=" {{url_for('cart.empty_cart')}} ">Limpar carrinho</a></button></td>
+                <td><button class="btn btn-sm btn-danger"><a id="clear-cart-button" href=" {{ url_for('cart.empty_cart') }} ">Limpar carrinho</a></button></td>
             </tr>
         </tbody>
         </table>
@@ -46,7 +46,7 @@
             <p>Subtotal: R$ {{ subtotal }}</p>
             <hr>
             <p>Total: R$ {{ grandtotal }}</p>
-            <button class="btn btn-success"><a href="#">Pagar</a></button>
+            <button class="btn btn-success"><a href="{{ url_for('cart.buy_product') }}">Pagar</a></button>
         </div>
 
     </div>

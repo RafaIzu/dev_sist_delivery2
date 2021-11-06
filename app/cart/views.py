@@ -1,7 +1,7 @@
-from flask import redirect, render_template, url_for, flash, request, session,\
-    current_app
+from flask import redirect, render_template, url_for, flash, request, session
 from . import cart
 from ..models import Product
+from ..mercadopago import Payment
 
 def MagerDicts(dict1, dict2):
     if isinstance(dict1, list) and isinstance(dict2, list):
@@ -10,6 +10,17 @@ def MagerDicts(dict1, dict2):
         return dict(list(dict1.items()) + list(dict2.items()))
     return False
 
+def organize_order_test(payment_dictionary):
+    preferences = {"items": []}
+    for key, value in payment_dictionary.items():
+        preferences["items"].append(
+            {"title": value["name"],
+             "quantity": value["quantity"],
+             "currence_id": "BRL",
+             "unit_price": value["price"]})
+    return preferences
+
+
 @cart.route('/addcart', methods=['POST'])
 def add_cart():
     try:
@@ -17,25 +28,26 @@ def add_cart():
         quantity = int(request.form.get('quantity'))
         product = Product.query.filter_by(id=product_id).first()
         if product_id and quantity and request.method == "POST":
-            Dict_items = {product_id:{'name': product.name,
-                                     "price": product.price,
-                                     "quantity": quantity,
-                                     "image": product.image}}
+            dict_items = {product_id: {"name": product.name,
+                                       "price": product.price,
+                                       "quantity": quantity,
+                                       "image": product.image}}
             if 'shopping_cart' in session:
                 print(session['shopping_cart'])
                 if product_id in session['shopping_cart']:
                     for key, item in session['shopping_cart'].items():
                         if int(key) == int(product_id):
                             print('lu-li-li-lo-lo')
+                            print(session['shopping_cart'])
                             session.modified = True
                             print(item['quantity'])
                             item['quantity'] += 1
                     print("This product is already in your cart!")
                 else:
-                    session['shopping_cart'] = MagerDicts(session['shopping_cart'], Dict_items)
+                    session['shopping_cart'] = MagerDicts(session['shopping_cart'], dict_items)
                     return redirect(request.referrer)
             else:
-                session['shopping_cart'] = Dict_items
+                session['shopping_cart'] = dict_items
                 return redirect(request.referrer)
     except Exception as e:
         print(e)
@@ -55,6 +67,9 @@ def get_cart():
         subtotal += float(product['price'] * int(product['quantity']))
         grandtotal = subtotal + freight
         sum_item_unit += int(product['quantity'])
+    # uso para teste
+    product_show = organize_order_test(session['shopping_cart'])
+    print(product_show)
     return render_template('products/carts.html',
                            freight=freight,
                            subtotal=subtotal,
@@ -107,3 +122,13 @@ def empty_cart():
         return redirect(url_for("main.index"))
     except Exception as e:
         print(e)
+
+
+@cart.route('/buy')
+def buy_product():
+    cart_order = session['shopping_cart']
+    try:
+        session.pop('shopping_cart', None)
+    except Exception as e:
+        print(e)
+    return redirect(Payment().payment(cart_order))

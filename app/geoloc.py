@@ -1,6 +1,6 @@
 import requests
 from geopy.distance import geodesic
-
+import os
 
 class Geolocalization():
     def __init__(self):
@@ -8,7 +8,9 @@ class Geolocalization():
 
     def calculate_distance(self, client_lat, client_lon):
         client_location = (client_lat, client_lon)
-        shop_location = (-23.5710819, -46.649922)
+        shop_lat = os.environ["SHOP_LAT"]
+        shop_lon = os.environ["SHOP_LON"]
+        shop_location = (float(shop_lat), float(shop_lon))
         return round(geodesic(client_location, shop_location).km, 3)
 
     def __format_address_to_url(self, address, number, city, neighborhood,

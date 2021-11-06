@@ -14,27 +14,35 @@
 {% else %}
 <form action="/user/edit-profile" class="destinyEdit" method="post">
     <div class="col-md-6">
+        <label for="telephone">Telefone:</label>
         <input type="text" name="telephone" id="telephone" class="form-control" value="{{ user.telephone }}">
     </div>
     <div class="col-md-6">
+        <label for="address">Endereço:</label>
         <input type="text" name="address" id="address" class="form-control" value="{{ user.destiny.address }}">
     </div>
     <div class="col-md-6">
+        <label for="number">Número endereço:</label>
         <input type="text" name="number" id="number" class="form-control" value="{{ user.destiny.number }}">
     </div>
     <div class="col-md-6">
+        <label for="zipcode">CEP:</label>
         <input type="text" name="zipcode" id="zipcode" class="form-control" value="{{ user.destiny.zipcode }}">
     </div>
     <div class="col-md-6">
+        <label for="neighborhood">Bairro:</label>
         <input type="text" name="neighborhood" id="neighborhood" class="form-control" value="{{ user.destiny.neighborhood }}">
     </div>
     <div class="col-md-6">
+        <label for="complement">Complemento:</label>
         <input type="text" name="complement" id="complement" class="form-control" value="{{ user.destiny.complement }}">
     </div>
     <div class="col-md-6">
+        <label for="city">Cidade:</label>
         <input type="text" name="city" id="city" class="form-control" value="{{ user.destiny.city }}">
     </div>
     <div class="col-md-6">
+        <label for="state">Estado:</label>
         <input type="text" name="state" id="state" class="form-control" value="{{ user.destiny.state }}">
     </div>
     <br>
@@ -43,7 +51,8 @@
     </div>
 </form>
 <div class="return">
-    <button type="button" class="btn"><a href="main.user">Voltar</a></button>
+    <button type="button" class="btn"><a href="{{ url_for('main.user', username=current_user.username) }}">Voltar</a></button>
+<!--    <button type="button" class="btn"><a href="main.user">Voltar</a></button>-->
 </div>
 {% endif %}
 {% endblock %}

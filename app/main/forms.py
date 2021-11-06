@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import Role, User
 
+
 class EditProfileAdminForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),
                                              Email()])
@@ -75,7 +76,3 @@ class EditProfileForm(FlaskForm):
     def validate_telephone(self, field):
         if User.query.filter_by(telephone=field.data()).first():
             raise ValidationError('Número de telefone já em uso!')
-
-
-
-

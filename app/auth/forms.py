@@ -28,6 +28,7 @@ class RegistrationForm(FlaskForm):
     number = StringField('Número', validators=[DataRequired()])
     zipcode = StringField('Cep', validators=[DataRequired()])
     submit = SubmitField('Register')
+
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Esse email já foi cadastrado.')

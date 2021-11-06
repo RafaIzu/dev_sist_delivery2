@@ -46,7 +46,11 @@
             <p>Subtotal: R$ {{ subtotal }}</p>
             <hr>
             <p>Total: R$ {{ grandtotal }}</p>
+            {% if current_user.is_authenticated %}
             <button class="btn btn-success"><a href="{{ url_for('cart.buy_product') }}">Pagar</a></button>
+            {% else %}
+            <button class="btn btn-success"><a href="{{ url_for('auth.login') }}">Pagar</a></button>
+            {% endif %}
         </div>
 
     </div>

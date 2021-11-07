@@ -40,7 +40,6 @@
         </table>
     </div>
     <div id="cart-summary" class="container" >
-        
         <div class="cart-checkout">
             {% if current_user.is_authenticated %}
             {% if is_deliverable %}
@@ -52,16 +51,16 @@
             <p>Cadastre-se para saber o valor do frete.</p>
             {% endif %}
             <p>Subtotal: R$ {{ (("%.2f"|format(subtotal))|string()).replace(".", ",") }}</p>
-            <hr>
+            <hr class="cart-checkout-separator">
             <p>Total: R$ {{ (("%.2f"|format(grandtotal))|string()).replace(".", ",") }}</p>
             {% if current_user.is_authenticated %}
             {% if is_deliverable %}
-            <button class="btn btn-success"><a href="{{ url_for('cart.buy_product') }}">Pagar</a></button>
+            <button  class="btn btn-success"><a id="cart-summary-button" href="{{ url_for('cart.buy_product') }}">Pagar</a></button>
             {% else %}
-            <p>Lamentamos, não entregamos no seu endereço.</p>
+            <p id="cart-sorry-msg">Lamentamos, não entregamos no seu endereço.</p>
             {% endif %}
             {% else %}
-            <button class="btn btn-success"><a href="{{ url_for('auth.login') }}">Cadastre-se!</a></button>
+            <button class="btn btn-success"><a id="cart-summary-button" href="{{ url_for('auth.login') }}">Cadastre-se!</a></button>
             {% endif %}
         </div>
     </div>

@@ -1,3 +1,7 @@
+body{
+    background-color: #fefae0;
+}
+
 
 .menu{
     display: flex;
@@ -141,7 +145,7 @@ button#addButtonProducts{
 
 div#catalogSelectionContainer{
     margin-top: 30px;
-    background-color: #F0F0F0;
+    background-color: #faedcd;
     height: 80px;
     width: 800px;
     margin-bottom: 50px;
@@ -222,10 +226,6 @@ div#catalogSelectionContainer{
 }
 
 
-/* #back_button_product_details{
-    margin-top: 220px;
-} */
-
 #mapid{
     height: 500px;
     width: 500px;
@@ -247,8 +247,23 @@ div#catalogSelectionContainer{
 #cart-summary>div{
     width: 300px;
     padding: 10px;
-    background-color: gray;
+    background-color: #faedcd;
     border-radius: 5px;
+}
+
+.cart-checkout-separator{
+    height: 1px;
+    background-color: black;
+}
+
+#cart-summary-button{
+    color:#F0F0F0;
+    text-decoration: none;
+}
+
+#cart-sorry-msg{
+    color: #ff0000;
+    font-weight: bold;
 }
 
 #cart-summary>div>p:nth-child(2){

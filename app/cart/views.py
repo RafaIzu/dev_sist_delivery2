@@ -6,6 +6,7 @@ from ..models import Product, User
 from ..mercadopago import Payment
 from ..geoloc import Geolocalization
 
+
 def MagerDicts(dict1, dict2):
     if isinstance(dict1, list) and isinstance(dict2, list):
         return dict1 + dict2
@@ -14,9 +15,10 @@ def MagerDicts(dict1, dict2):
     return False
 
 
-def calculate_freight():
+def get_user_distance():
     if current_user.is_authenticated:
-        user = User.query.filter_by(username=current_user.username).first_or_404()
+        user = User.query.filter_by(
+            username=current_user.username).first_or_404()
         geoloc = Geolocalization()
         lon, lat = geoloc.gimmie_loc(address=user.destiny.address,
                                      number=user.destiny.number,
@@ -25,17 +27,20 @@ def calculate_freight():
                                      state=user.destiny.state)
         if lat == 404:
             print("Nominatim server error. Don't blame me...")
-            freight = 0
-            # lat = os.environ["SHOP_LAT"]
-            # lon = os.environ["SHOP_LON"]
-            # # lat, lon = (-23.5710819, -46.649922)  # seria as cordenadas da loja.
+            return 10000
         else:
             print("Nominatim server is cool!")
-            distance = geoloc.calculate_distance(lat, lon)
-            freight = distance * 1.25
+            return geoloc.calculate_distance(lat, lon)
     else:
-        freight = 0
-    return freight
+        return 10000
+
+
+def calculate_freight():
+    distance = get_user_distance()
+    if distance > 20:
+        return 0
+    else:
+        return distance * 1.25
 
 
 def organize_order_test(payment_dictionary):
@@ -91,10 +96,20 @@ def get_cart():
     sum_item_unit = 0
     subtotal = 0
     try:
-        freight = calculate_freight()
-    except Exception as e:
+        distance = get_user_distance()
+    except:
+        distance = 10000
+    if distance < 20:
+        try:
+            freight = calculate_freight()
+            is_deliverable = True
+        except Exception as e:
+            freight = 0
+            is_deliverable = False
+            print(e)
+    else:
         freight = 0
-        print(e)
+        is_deliverable = False
     for key, product in session['shopping_cart'].items():
         subtotal += float(product['price'] * int(product['quantity']))
         grandtotal = subtotal + freight
@@ -103,7 +118,8 @@ def get_cart():
                            freight=freight,
                            subtotal=subtotal,
                            grandtotal=grandtotal,
-                           sum_item_unit=sum_item_unit)
+                           sum_item_unit=sum_item_unit,
+                           is_deliverable=is_deliverable)
 
 
 @cart.route('/updatecart/<int:code>', methods=['POST'])
